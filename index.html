@@ -2,70 +2,71 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Аренда авто во Вьетнаме</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аренда авто во Вьетнаме</title>
 
 <style>
 body {
   margin:0;
   font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-  background:#eaecef;
-  color:#111;
+  background:#111;
+  color:white;
 }
 
 header {
   text-align:center;
-  padding:40px 20px;
+  padding:50px 20px;
   font-size:28px;
   font-weight:600;
+  letter-spacing:1px;
 }
 
 .section {
   max-width:900px;
-  margin:40px auto;
+  margin:0 auto 80px auto;
   padding:0 20px;
 }
 
 .card {
-  background:white;
-  border-radius:20px;
-  padding:30px;
-  margin-bottom:60px;
-  box-shadow:0 20px 50px rgba(0,0,0,0.12);
+  background:rgba(255,255,255,0.05);
+  border-radius:24px;
+  overflow:hidden;
+  backdrop-filter:blur(12px);
+  box-shadow:0 30px 60px rgba(0,0,0,0.5);
 }
 
 .card img {
   width:100%;
-  border-radius:16px;
-  margin-bottom:25px;
+  display:block;
 }
 
-.card h2 {
-  margin:0 0 20px 0;
-  text-align:center;
+.content {
+  padding:30px;
+}
+
+h2 {
+  margin:0 0 10px 0;
   font-size:22px;
+  font-weight:600;
 }
 
 .price {
-  font-size:20px;
-  font-weight:600;
-  text-align:center;
+  font-size:18px;
+  color:#4ade80;
   margin-bottom:20px;
 }
 
-.card p {
-  text-align:center;
-  font-size:17px;
+p {
+  color:#cfcfcf;
   line-height:1.6;
-  color:#444;
 }
 
 .button {
   display:inline-block;
-  margin-top:30px;
+  margin-top:25px;
   padding:14px 28px;
-  background:#2f855a;
-  color:white;
+  background:#4ade80;
+  color:black;
   border-radius:14px;
   text-decoration:none;
   font-weight:600;
@@ -79,32 +80,19 @@ header {
 
 <div class="section">
 
-  <!-- Hyundai Kona -->
-  <div class="card">
-    <h2>Hyundai Kona — от 40$ / сутки</h2>
-    <img src="photo_2026-02-15 19.08.34.jpeg">
-    <p>
-      Баланс комфорта и практичности.<br>
-      Отличный выбор для города и путешествий по побережью.
-    </p>
-  </div>
-
-  <!-- Mazda CX-5 -->
-  <div class="card">
-    <h2>Mazda CX-5 — 52$ / сутки</h2>
-    <img src="photo_2026-02-15 19.09.34.jpeg">
-    <p>
-      Уверенность на трассе и в горах.<br>
-      Просторный кроссовер для комфортных поездок по провинциям.
-    </p>
-  </div>
-
+<div class="card">
+<img src="photo_2026-02-15 19.08.34.jpeg">
+<div class="content">
+<h2>Hyundai Kona</h2>
+<div class="price">от 40$ / сутки</div>
+<p>
+Баланс комфорта и практичности.  
+Отличный выбор для города и поездок вдоль побережья.
+</p>
+<a class="button" href="https://t.me/RentCarNT_bot">Забронировать</a>
+</div>
 </div>
 
-<div style="text-align:center; padding:40px;">
-  <a href="https://t.me/RentCarNT_bot" class="button">
-    Оставить заявку в боте
-  </a>
 </div>
 
 </body>
