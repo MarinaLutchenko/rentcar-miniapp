@@ -7,73 +7,72 @@
 
 <style>
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: radial-gradient(circle at top, #1c1c1c, #0f0f0f);
-  color: white;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f0f0f;
+    color: white;
 }
 
 header {
-  text-align: center;
-  padding: 20px 15px;
-  font-size: 22px;
-  font-weight: 600;
-  background: #111;
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 24px;
+    font-weight: 600;
+    background: #121212;
 }
 
 .container {
-  padding: 20px;
-  max-width: 500px;
-  margin: auto;
+    padding: 20px;
 }
 
 .card {
-  background: linear-gradient(145deg, #1a1a1a, #141414);
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 25px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    background: linear-gradient(145deg, #1a1a1a, #141414);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 .card img {
-  width: 100%;
-  height: auto;
-  max-height: 300px;
-  object-fit: contain;
-  background: #111;
-  display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
 }
 
 .card-content {
-  padding: 18px;
+    padding: 18px;
 }
 
-.card h2 {
-  margin: 0 0 8px 0;
-  font-size: 20px;
+.car-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
 .price {
-  color: #4cd964;
-  font-size: 18px;
-  margin-bottom: 15px;
+    color: #4cd964;
+    font-size: 18px;
+    margin-bottom: 18px;
 }
 
-button {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(90deg, #3ddc84, #2ecc71);
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
+.button {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    text-align: center;
+    background: linear-gradient(90deg, #3ddc84, #34c76f);
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: 0.2s ease;
 }
 
-button:hover {
-  transform: scale(0.98);
+.button:active {
+    transform: scale(0.98);
+    opacity: 0.9;
 }
 </style>
 </head>
@@ -84,25 +83,25 @@ button:hover {
 
 <div class="container">
 
-  <!-- Hyundai Kona -->
-  <div class="card">
-    <img src="photo_2026-02-15 19.08.34.jpeg" alt="Hyundai Kona">
-    <div class="card-content">
-      <h2>Hyundai Kona</h2>
-      <div class="price">от 40$ / сутки</div>
-      <button>Забронировать</button>
+    <!-- Hyundai Kona -->
+    <div class="card">
+        <img src="photo_2026-02-15 19.08.34.jpeg" alt="Hyundai Kona">
+        <div class="card-content">
+            <div class="car-title">Hyundai Kona</div>
+            <div class="price">от 40$ / сутки</div>
+            <a href="#" class="button">Забронировать</a>
+        </div>
     </div>
-  </div>
 
-  <!-- Mazda CX-5 -->
-  <div class="card">
-    <img src="photo_2026-02-15 19.09.34.jpeg" alt="Mazda CX-5">
-    <div class="card-content">
-      <h2>Mazda CX-5</h2>
-      <div class="price">от 52$ / сутки</div>
-      <button>Забронировать</button>
+    <!-- Mazda CX-5 -->
+    <div class="card">
+        <img src="photo_2026-02-15 19.09.34.jpeg" alt="Mazda CX-5">
+        <div class="card-content">
+            <div class="car-title">Mazda CX-5</div>
+            <div class="price">от 52$ / сутки</div>
+            <a href="#" class="button">Забронировать</a>
+        </div>
     </div>
-  </div>
 
 </div>
 
