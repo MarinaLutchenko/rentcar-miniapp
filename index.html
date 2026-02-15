@@ -1,107 +1,97 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>RentCarNT</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RentCarNT</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0f0f0f;
-      color: white;
-    }
+<style>
+body {
+  margin: 0;
+  background: #111;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: white;
+}
 
-    header {
-      padding: 20px 16px 10px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: 600;
-    }
+header {
+  padding: 20px 16px;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+}
 
-    .cars-container {
-      padding-bottom: 30px;
-    }
+.container {
+  padding: 16px;
+}
 
-    .car-card {
-      background: #1a1a1a;
-      border-radius: 16px;
-      margin: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
+.card {
+  background: #1c1c1c;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
 
-    .car-card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
+.card img {
+  width: 100%;
+  height: auto;   /* ВАЖНО — убрали фиксированную высоту */
+  display: block;
+}
 
-    .car-info {
-      padding: 16px;
-    }
+.info {
+  padding: 16px;
+}
 
-    .car-info h2 {
-      margin: 0 0 6px;
-      font-size: 18px;
-      font-weight: 600;
-    }
+.title {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
 
-    .price {
-      color: #3ddc84;
-      font-weight: 600;
-      margin-bottom: 14px;
-      font-size: 16px;
-    }
+.price {
+  color: #3ddc84;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
 
-    .btn {
-      width: 100%;
-      padding: 12px;
-      background: #3ddc84;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
-  </style>
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #3ddc84;
+  font-weight: 600;
+  font-size: 15px;
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    Аренда авто во Вьетнаме
-  </header>
+<header>
+Аренда авто во Вьетнаме
+</header>
 
-  <div class="cars-container">
+<div class="container">
 
-    <!-- Машина 1 -->
-    <div class="car-card">
-      <img src="photo_2026-02-15 19.08.34.jpeg" alt="Hyundai Kona">
-      <div class="car-info">
-        <h2>Hyundai Kona</h2>
-        <div class="price">от 40$ / сутки</div>
-        <button class="btn">Забронировать</button>
-      </div>
-    </div>
-
-    <!-- Машина 2 -->
-    <div class="car-card">
-      <img src="photo_2026-02-15 19.09.34.jpeg" alt="Kia Sonet">
-      <div class="car-info">
-        <h2>Kia Sonet</h2>
-        <div class="price">от 38$ / сутки</div>
-        <button class="btn">Забронировать</button>
-      </div>
-    </div>
-
+<div class="card">
+  <img src="photo_2026-02-15 19.08.34.jpeg" alt="Hyundai Kona">
+  <div class="info">
+    <div class="title">Hyundai Kona</div>
+    <div class="price">от 40$ / сутки</div>
+    <button>Забронировать</button>
   </div>
+</div>
+
+<div class="card">
+  <img src="photo_2026-02-15 19.09.34.jpeg" alt="Kia Sonet">
+  <div class="info">
+    <div class="title">Kia Sonet</div>
+    <div class="price">от 38$ / сутки</div>
+    <button>Забронировать</button>
+  </div>
+</div>
+
+</div>
 
 </body>
 </html>
