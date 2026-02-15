@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RentCarNT</title>
 
 <style>
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: #0f0f0f;
     color: white;
 }
 
 header {
     text-align: center;
-    padding: 28px 20px;
-    font-size: 24px;
+    padding: 20px;
+    font-size: 22px;
     font-weight: 600;
-    background: #121212;
+    background: #111;
 }
 
 .container {
@@ -26,16 +26,17 @@ header {
 }
 
 .card {
-    background: linear-gradient(145deg, #1a1a1a, #141414);
+    background: linear-gradient(145deg, #141414, #1c1c1c);
     border-radius: 18px;
+    margin-bottom: 28px;
     overflow: hidden;
-    margin-bottom: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+/* ВАЖНО — без обрезки */
 .card img {
     width: 100%;
-    height: auto;          /* ВАЖНО */
+    height: auto;
     display: block;
 }
 
@@ -43,35 +44,28 @@ header {
     padding: 18px;
 }
 
-.car-title {
-    font-size: 22px;
+.card-title {
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .price {
-    color: #4cd964;
-    font-size: 18px;
-    margin-bottom: 18px;
+    color: #4ade80;
+    font-size: 16px;
+    margin-bottom: 16px;
 }
 
 .button {
-    display: block;
     width: 100%;
-    padding: 16px;
-    text-align: center;
-    background: linear-gradient(90deg, #3ddc84, #34c76f);
-    color: white;
-    font-size: 17px;
-    font-weight: 600;
+    padding: 14px;
+    border: none;
     border-radius: 14px;
-    text-decoration: none;
-    transition: 0.2s ease;
-}
-
-.button:active {
-    transform: scale(0.98);
-    opacity: 0.9;
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -82,23 +76,23 @@ header {
 
 <div class="container">
 
-    <!-- Hyundai Kona -->
+    <!-- HYUNDAI KONA -->
     <div class="card">
         <img src="photo_2026-02-15 19.08.34.jpeg" alt="Hyundai Kona">
         <div class="card-content">
-            <div class="car-title">Hyundai Kona</div>
+            <div class="card-title">Hyundai Kona</div>
             <div class="price">от 40$ / сутки</div>
-            <a href="#" class="button">Забронировать</a>
+            <button class="button">Забронировать</button>
         </div>
     </div>
 
-    <!-- Mazda CX-5 -->
+    <!-- MAZDA CX-5 (горизонтальная) -->
     <div class="card">
-        <img src="photo_2026-02-15 19.09.34.jpeg" alt="Mazda CX-5">
+        <img src="photo_2026-02-16 00.43.52.jpeg" alt="Mazda CX-5">
         <div class="card-content">
-            <div class="car-title">Mazda CX-5</div>
+            <div class="card-title">Mazda CX-5</div>
             <div class="price">от 52$ / сутки</div>
-            <a href="#" class="button">Забронировать</a>
+            <button class="button">Забронировать</button>
         </div>
     </div>
 
