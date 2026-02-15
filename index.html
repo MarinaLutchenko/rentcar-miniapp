@@ -9,34 +9,38 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(180deg, #0f0f0f 0%, #141414 100%);
+  background: radial-gradient(circle at top, #1c1c1c, #0f0f0f);
   color: white;
 }
 
 header {
   text-align: center;
-  padding: 24px 16px 16px;
+  padding: 20px 15px;
   font-size: 22px;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  background: #111;
 }
 
 .container {
-  padding: 0 16px 40px;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
 }
 
 .card {
-  background: #1a1a1a;
-  border-radius: 18px;
+  background: linear-gradient(145deg, #1a1a1a, #141414);
+  border-radius: 20px;
   overflow: hidden;
-  margin-bottom: 22px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  margin-bottom: 25px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
 }
 
 .card img {
   width: 100%;
-  height: 260px;
-  object-fit: cover;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  background: #111;
   display: block;
 }
 
@@ -44,34 +48,31 @@ header {
   padding: 18px;
 }
 
-.car-title {
+.card h2 {
+  margin: 0 0 8px 0;
   font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 6px;
 }
 
 .price {
-  color: #4ade80;
-  font-size: 16px;
-  margin-bottom: 16px;
+  color: #4cd964;
+  font-size: 18px;
+  margin-bottom: 15px;
 }
 
-.button {
-  display: block;
+button {
   width: 100%;
-  padding: 14px;
-  background: #4ade80;
-  color: black;
-  text-align: center;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #3ddc84, #2ecc71);
   font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
   transition: 0.2s;
 }
 
-.button:active {
-  transform: scale(0.98);
+button:hover {
+  opacity: 0.9;
 }
 </style>
 </head>
@@ -86,9 +87,9 @@ header {
   <div class="card">
     <img src="photo_2026-02-15 19.08.34.jpeg" alt="Hyundai Kona">
     <div class="card-content">
-      <div class="car-title">Hyundai Kona</div>
+      <h2>Hyundai Kona</h2>
       <div class="price">от 40$ / сутки</div>
-      <a href="https://t.me/RentCarNT_bot" class="button">Забронировать</a>
+      <button>Забронировать</button>
     </div>
   </div>
 
@@ -96,9 +97,9 @@ header {
   <div class="card">
     <img src="photo_2026-02-15 19.09.34.jpeg" alt="Mazda CX-5">
     <div class="card-content">
-      <div class="car-title">Mazda CX-5</div>
+      <h2>Mazda CX-5</h2>
       <div class="price">от 52$ / сутки</div>
-      <a href="https://t.me/RentCarNT_bot" class="button">Забронировать</a>
+      <button>Забронировать</button>
     </div>
   </div>
 
