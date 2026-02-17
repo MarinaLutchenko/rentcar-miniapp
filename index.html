@@ -1,200 +1,136 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RentCarNT</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RentCarNT</title>
 
-  <style>
-    :root{
-      --bg: #0b0b0b;
-      --card: #151515;
-      --muted: #b9b9b9;
-      --white: #ffffff;
-      --accent: #2fd07b;
-      --accent2: #21b56a;
-      --shadow: 0 14px 40px rgba(0,0,0,.55);
-      --radius: 22px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #0f0f0f;
+  color: white;
+}
 
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% -10%, rgba(47,208,123,.10), transparent 60%),
-                  radial-gradient(900px 600px at 100% 10%, rgba(47,208,123,.06), transparent 55%),
-                  var(--bg);
-      color: var(--white);
-    }
+header {
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+}
 
-    header{
-      text-align:center;
-      padding: 22px 14px 10px;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: .2px;
-    }
+.screen {
+  display: none;
+  padding: 20px;
+}
 
-    .container{
-      width: min(520px, 92vw);
-      margin: 0 auto;
-      padding: 10px 0 30px;
-      display:flex;
-      flex-direction:column;
-      gap: 18px;
-    }
+.screen.active {
+  display: block;
+}
 
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      overflow:hidden;
-      box-shadow: var(--shadow);
-    }
+.card {
+  background: #1a1a1a;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
 
-    /* Ключевой фикс: одинаковая “рамка” под фото, чтобы вертикальные фото не были гигантами */
-    .card-image{
-      width: 100%;
-      aspect-ratio: 16 / 10;   /* одинаковая высота у всех карточек */
-      background: #0e0e0e;
-      overflow:hidden;
-      position:relative;
-    }
+.card:hover {
+  background: #242424;
+}
 
-    .card-image img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;        /* красиво заполняет карточку */
-      object-position: center;  /* базово по центру */
-      display:block;
-      transform: translateZ(0);
-    }
+.btn {
+  background: linear-gradient(90deg, #27ae60, #2ecc71);
+  padding: 16px;
+  border-radius: 14px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 15px;
+  cursor: pointer;
+}
 
-    /* Точечная настройка, чтобы мазда не “съедалась” снизу */
-    .img-mazda{ object-position: center 65%; }
-
-    /* Если вдруг у Коны будет резать бампер — чуть сместим вниз */
-    .img-kona{ object-position: center 55%; }
-
-    .card-content{
-      padding: 16px 16px 18px;
-      background: rgba(0,0,0,.22);
-      backdrop-filter: blur(6px);
-    }
-
-    .car-title{
-      font-size: 28px;
-      font-weight: 800;
-      margin: 2px 0 6px;
-    }
-
-    .price{
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--accent);
-      margin: 0 0 14px;
-    }
-
-    .btn{
-      width: 100%;
-      border: 0;
-      padding: 16px 18px;
-      border-radius: 16px;
-      font-size: 18px;
-      font-weight: 800;
-      color: #ffffff;
-      cursor: pointer;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      box-shadow: 0 12px 22px rgba(47,208,123,.18);
-    }
-
-    .btn:active{ transform: translateY(1px); }
-
-    .note{
-      opacity:.75;
-      font-size: 12px;
-      text-align:center;
-      padding-top: 4px;
-    }
-  </style>
+img {
+  width: 100%;
+  border-radius: 16px;
+  margin-bottom: 10px;
+}
+</style>
 </head>
 
 <body>
-  <header>Аренда авто во Вьетнаме</header>
 
-  <div class="container">
+<header>Аренда авто во Вьетнаме</header>
 
-    <!-- KONA -->
-    <div class="card">
-      <div class="card-image">
-        <img class="img-kona"
-             src="photo_2026-02-15%2019.08.34.jpeg"
-             alt="Hyundai Kona">
-      </div>
-      <div class="card-content">
-        <div class="car-title">Hyundai Kona</div>
-        <div class="price">от 40$ / сутки</div>
-        <button class="btn" data-car="kona" data-title="Hyundai Kona" data-price="40">
-          Забронировать
-        </button>
-      </div>
-    </div>
+<!-- Экран 1 -->
+<div id="screen-city" class="screen active">
+  <div class="card" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
+  <div class="card" onclick="selectCity('Дананг')">🌊 Дананг</div>
+  <div class="card" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
+</div>
 
-    <!-- MAZDA -->
-    <div class="card">
-      <div class="card-image">
-        <img class="img-mazda"
-             src="photo_2026-02-16%2000.43.52.jpeg"
-             alt="Mazda CX-5">
-      </div>
-      <div class="card-content">
-        <div class="car-title">Mazda CX-5</div>
-        <div class="price">от 52$ / сутки</div>
-        <button class="btn" data-car="mazda_cx5" data-title="Mazda CX-5" data-price="52">
-          Забронировать
-        </button>
-      </div>
-    </div>
+<!-- Экран 2 -->
+<div id="screen-segment" class="screen">
+  <div class="card" onclick="selectSegment('Эконом')">🚗 Эконом</div>
+  <div class="card" onclick="selectSegment('Кроссоверы')">🚙 Кроссоверы</div>
+  <div class="card" onclick="selectSegment('Премиум')">✨ Премиум</div>
+</div>
 
-    <div class="note">RentCarNT • кнопка отправляет выбранное авто в Telegram-бот</div>
+<!-- Экран 3 -->
+<div id="screen-cars" class="screen">
+
+  <div class="card" onclick="selectCar('Hyundai Kona', 40)">
+    <img src="photo_2026-02-15 19.08.34.jpeg">
+    Hyundai Kona<br>
+    от 40$ / сутки
   </div>
 
-  <script>
-    // Ваш бот:
-    const BOT_USERNAME = "rentcarnt_bot";
+  <div class="card" onclick="selectCar('Mazda CX-5', 52)">
+    <img src="photo_2026-02-16 00.43.52.jpeg">
+    Mazda CX-5<br>
+    от 52$ / сутки
+  </div>
 
-    // Упакуем выбор в start-параметр (бот это сможет прочитать в /start payload)
-    function buildStartPayload({ car, title, price }) {
-      // Коротко и безопасно: car + цена (без пробелов)
-      // Пример: car_kona_40
-      return `car_${car}_${price}`;
-    }
+</div>
 
-    function openBotWithSelection(payload) {
-      const link = `https://t.me/${BOT_USERNAME}?start=${encodeURIComponent(payload)}`;
+<script>
+let bookingData = {
+  city: null,
+  segment: null,
+  car: null,
+  price: null
+};
 
-      // Если внутри Telegram WebApp — используем более “правильный” метод
-      if (window.Telegram && window.Telegram.WebApp) {
-        try {
-          window.Telegram.WebApp.openTelegramLink(link);
-          return;
-        } catch (e) {}
-      }
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-      // В обычном браузере
-      window.open(link, "_blank");
-    }
+function selectCity(city) {
+  bookingData.city = city;
+  showScreen('screen-segment');
+}
 
-    document.querySelectorAll(".btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const car = btn.dataset.car;
-        const title = btn.dataset.title;
-        const price = btn.dataset.price;
+function selectSegment(segment) {
+  bookingData.segment = segment;
+  showScreen('screen-cars');
+}
 
-        const payload = buildStartPayload({ car, title, price });
-        openBotWithSelection(payload);
-      });
-    });
-  </script>
+function selectCar(car, price) {
+  bookingData.car = car;
+  bookingData.price = price;
+
+  alert(
+    "Город: " + bookingData.city + "\n" +
+    "Сегмент: " + bookingData.segment + "\n" +
+    "Авто: " + bookingData.car + "\n" +
+    "Цена: $" + bookingData.price
+  );
+}
+</script>
+
 </body>
 </html>
