@@ -390,6 +390,10 @@
 
   // старт
   resetFlow();
+  if (window.Telegram && Telegram.WebApp) {
+  Telegram.WebApp.expand();
+  Telegram.WebApp.disableVerticalSwipes();
+}
 </script>
 
 </body>
