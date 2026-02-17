@@ -172,16 +172,27 @@
     </div>
 
     <!-- ЭКРАН 6: УСПЕХ -->
-    <div id="screen-success" class="hidden">
-      <div class="success">
-        <h2>✅ Заявка отправлена</h2>
-        <p>Менеджер свяжется с вами в ближайшее время.</p>
-        <div class="hint">Если вопрос срочный — напишите нам напрямую в Telegram.</div>
-      </div>
-      <button class="btn secondary" onclick="resetFlow()">Оставить ещё заявку</button>
+   <div id="screen-success" class="hidden">
+  <div class="success">
+    <h2>✅ Заявка отправлена</h2>
+    <p>Менеджер свяжется с вами в ближайшее время.</p>
+
+    <div style="margin-top:15px; color:#888;">
+      Если вопрос срочный — напишите нам напрямую:
     </div>
 
+    <a href="https://t.me/RentCarNT" target="_blank">
+      <button class="btn" style="margin-top:15px;">
+        📩 Написать менеджеру
+      </button>
+    </a>
   </div>
+
+  <button class="btn" style="margin-top:15px; background:#1c1c1c;"
+    onclick="location.reload()">
+    Оставить ещё заявку
+  </button>
+</div>
 
 <script>
   // ВАЖНО: твой "верный" Apps Script URL
