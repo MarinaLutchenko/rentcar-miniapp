@@ -45,34 +45,35 @@
     .card:hover{ border:1px solid #2ecc71; }
     .card:active{ transform: scale(0.99); }
 
-    .btn{
-      width:100%;
-      padding:16px;
-      background:#2ecc71;
-      border:none;
-      border-radius:14px;
-      font-size:16px;
-      font-weight:700;
-      margin-top:10px;
-      cursor:pointer;
-      color:#0e0e0e; /* чтобы на зелёной было читабельно */
-    }
-    .btn:active{ transform: scale(0.99); }
-    .btn.secondary{
-      background:#1c1c1c;
-      color:#fff;
-      border:1px solid #2b2b2b;
-      font-weight:600;
-    }
+    *{
+  box-sizing:border-box;
+}
 
-    /* чтобы ссылка-кнопка выглядела как кнопка */
-    a.btn{
-      display:block;
-      text-align:center;
-      text-decoration:none;
-      line-height:normal;
-    }
+.btn{
+  display:block;
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:700;
+  margin-top:12px;
+  text-align:center;
+  cursor:pointer;
+  border:none;
+  text-decoration:none;
+}
 
+.btn.primary{
+  background:#2ecc71;
+  color:#0e0e0e;
+}
+
+.btn.secondary{
+  background:#1c1c1c;
+  color:#fff;
+  border:1px solid #2b2b2b;
+  font-weight:600;
+}
     input{
       width:100%;
       padding:14px;
