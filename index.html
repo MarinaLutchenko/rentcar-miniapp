@@ -12,7 +12,14 @@
       background:#0e0e0e;
       color:#fff;
     }
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
 
+.container {
+  min-height: 100%;
+}
    .container{
   padding:20px;
   max-width:520px;
@@ -400,8 +407,9 @@
     show("screen-city");
   }
 if (window.Telegram && Telegram.WebApp) {
-  Telegram.WebApp.expand();
   Telegram.WebApp.ready();
+  Telegram.WebApp.expand();     // фиксируем высоту
+  Telegram.WebApp.disableVerticalSwipes();
 }
   resetFlow();
 </script>
