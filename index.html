@@ -238,35 +238,34 @@ bookingData.dateFrom = document.getElementById("dateFrom").value;
 bookingData.dateTo = document.getElementById("dateTo").value;
 show("screen-contacts");
 }
-
+<script>
 function sendBooking() {
+  bookingData.name = document.getElementById("clientName").value.trim();
+  bookingData.contact = document.getElementById("clientContact").value.trim();
 
-  bookingData.name = document.getElementById("clientName").value;
-  bookingData.contact = document.getElementById("clientContact").value;
+  bookingData.dateFrom = document.getElementById("dateFrom").value;
+  bookingData.dateTo   = document.getElementById("dateTo").value;
 
-  // 👇 ВАЖНО — добавляем type
+  // чтобы твой doPost точно распознал миниапп
   bookingData.type = "miniapp_booking";
 
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(bookingData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === "ok") {
-      show("screen-success");
-    } else {
-      alert("Ошибка отправки. Попробуйте позже.");
-    }
-  })
-  .catch(err => {
+  // на всякий — добавим dates (если где-то еще используется)
+  bookingData.dates = (bookingData.dateFrom && bookingData.dateTo)
+    ? (bookingData.dateFrom + " — " + bookingData.dateTo)
+    : "";
+
+  // ✅ отправка без CORS и без preflight
+  const payload = JSON.stringify(bookingData);
+  const ok = navigator.sendBeacon(
+    SCRIPT_URL,
+    new Blob([payload], { type: "text/plain;charset=UTF-8" })
+  );
+
+  // sendBeacon возвращает true/false — этого достаточно
+  if (ok) {
+    show("screen-success");
+  } else {
     alert("Ошибка отправки. Попробуйте позже.");
-  });
+  }
 }
 </script>
-
-</body>
-</html>
