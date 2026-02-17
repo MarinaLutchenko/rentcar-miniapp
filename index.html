@@ -239,35 +239,33 @@ bookingData.dateTo = document.getElementById("dateTo").value;
 show("screen-contacts");
 }
 
-function sendBooking(){
+function sendBooking() {
 
   bookingData.name = document.getElementById("clientName").value;
   bookingData.contact = document.getElementById("clientContact").value;
+
+  // 👇 ВАЖНО — добавляем type
+  bookingData.type = "miniapp_booking";
 
   fetch(SCRIPT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      type: "miniapp_booking",
-      city: bookingData.city,
-      car: bookingData.car,
-      dateFrom: bookingData.dateFrom,
-      dateTo: bookingData.dateTo,
-      name: bookingData.name,
-      contact: bookingData.contact
-    })
+    body: JSON.stringify(bookingData)
   })
   .then(response => response.json())
-  .then(() => {
-    show("screen-success");
+  .then(data => {
+    if (data.status === "ok") {
+      show("screen-success");
+    } else {
+      alert("Ошибка отправки. Попробуйте позже.");
+    }
   })
-  .catch(() => {
+  .catch(err => {
     alert("Ошибка отправки. Попробуйте позже.");
   });
 }
-
 </script>
 
 </body>
