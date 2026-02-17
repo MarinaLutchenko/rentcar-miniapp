@@ -1,180 +1,3 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RentCarNT</title>
-
-<style>
-body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-    background:#0e0e0e;
-    color:#fff;
-}
-
-.container{
-    padding:20px;
-    max-width:500px;
-    margin:auto;
-}
-
-h1{
-    font-size:22px;
-    margin-bottom:25px;
-}
-
-.card{
-    background:#1c1c1c;
-    padding:16px;
-    border-radius:16px;
-    margin-bottom:14px;
-    cursor:pointer;
-    transition:.2s;
-    border:1px solid transparent;
-}
-
-.card:hover{
-    border:1px solid #2ecc71;
-}
-
-.btn{
-    width:100%;
-    padding:16px;
-    background:#2ecc71;
-    border:none;
-    border-radius:14px;
-    font-size:16px;
-    font-weight:600;
-    margin-top:20px;
-    cursor:pointer;
-}
-
-.btn:hover{
-    opacity:.9;
-}
-
-input{
-    width:100%;
-    padding:14px;
-    margin-bottom:12px;
-    border-radius:12px;
-    border:none;
-    background:#1c1c1c;
-    color:#fff;
-    font-size:15px;
-}
-
-.hidden{ display:none; }
-
-.subtitle{
-    color:#888;
-    font-size:14px;
-    margin-bottom:15px;
-}
-
-.success{
-    background:#1c1c1c;
-    padding:20px;
-    border-radius:16px;
-    text-align:center;
-}
-</style>
-</head>
-<body>
-
-<div class="container">
-
-<!-- ЭКРАН 1 ГОРОДА -->
-<div id="screen-city">
-<h1>Выберите город аренды</h1>
-
-<div class="card" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
-<div class="card" onclick="selectCity('Муйне')">🌴 Муйне</div>
-<div class="card" onclick="selectCity('Фукуок')">🌊 Фукуок</div>
-<div class="card" onclick="selectCity('Дананг')">🌅 Дананг</div>
-<div class="card" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
-<div class="card" onclick="selectCity('Ханой')">🏛 Ханой</div>
-
-</div>
-
-
-<!-- ЭКРАН 2 СЕГМЕНТЫ -->
-<div id="screen-segment" class="hidden">
-<h1>Какой формат авто вам подойдёт?</h1>
-
-<div class="card" onclick="selectSegment('Баланс комфорта и практичности')">
-🚗 Баланс комфорта и практичности
-</div>
-
-<div class="card" onclick="selectSegment('Комфорт для трассы и горных дорог')">
-🚙 Комфорт для трассы и горных дорог
-</div>
-
-<div class="card" onclick="selectSegment('Простор для семьи и компании')">
-👨‍👩‍👧 Простор для семьи и компании
-</div>
-
-<div class="card" onclick="selectSegment('Электромобили нового поколения')">
-⚡ Электромобили нового поколения
-</div>
-
-<div class="card" onclick="selectSegment('Бизнес и представительский класс')">
-💎 Бизнес и представительский класс
-</div>
-
-</div>
-
-
-<!-- ЭКРАН 3 МАШИНЫ -->
-<div id="screen-car" class="hidden">
-<h1>Выберите автомобиль</h1>
-
-<div id="car-list"></div>
-
-</div>
-
-
-<!-- ЭКРАН 4 ДАТЫ -->
-<div id="screen-dates" class="hidden">
-<h1>Укажите даты аренды</h1>
-<div class="subtitle">Выберите даты поездки</div>
-
-<input type="date" id="dateFrom">
-<input type="date" id="dateTo">
-
-<button class="btn" onclick="goToContacts()">Далее</button>
-
-</div>
-
-
-<!-- ЭКРАН 5 КОНТАКТЫ -->
-<div id="screen-contacts" class="hidden">
-<h1>Контактные данные</h1>
-<div class="subtitle">Менеджер свяжется с вами</div>
-
-<input type="text" id="clientName" placeholder="Ваше имя">
-<input type="text" id="clientContact" placeholder="Telegram или WhatsApp">
-
-<button class="btn" onclick="sendBooking()">Отправить заявку</button>
-
-</div>
-
-
-<!-- ЭКРАН 6 УСПЕХ -->
-<div id="screen-success" class="hidden">
-<div class="success">
-<h2>✅ Заявка отправлена</h2>
-<p>Менеджер свяжется с вами в ближайшее время.</p>
-<p style="margin-top:15px;color:#888;">
-Если вопрос срочный — напишите нам напрямую в Telegram.
-</p>
-</div>
-</div>
-
-</div>
-
-
 <script>
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw83bucvRMn2_TNmmLoDhnVSL5Eeh3nA01-ANetMaGh7sqET43VMiTcxVKt24mx_aU/exec";
@@ -201,71 +24,74 @@ const cars = {
 };
 
 function show(id){
-document.querySelectorAll('[id^="screen"]').forEach(el=>el.classList.add('hidden'));
-document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('[id^="screen"]').forEach(el=>el.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
 }
 
 function selectCity(city){
-bookingData.city = city;
-show("screen-segment");
+  bookingData.city = city;
+  show("screen-segment");
 }
 
 function selectSegment(segment){
-bookingData.segment = segment;
+  bookingData.segment = segment;
 
-const list = document.getElementById("car-list");
-list.innerHTML = "";
+  const list = document.getElementById("car-list");
+  list.innerHTML = "";
 
-cars[segment].forEach(car=>{
-list.innerHTML += `
-<div class="card" onclick="selectCar('${car.name}', ${car.price})">
-<strong>${car.name}</strong><br>
-<span style="color:#2ecc71;">от $${car.price} / сутки</span>
-</div>`;
-});
+  cars[segment].forEach(car=>{
+    list.innerHTML += `
+    <div class="card" onclick="selectCar('${car.name}', ${car.price})">
+      <strong>${car.name}</strong><br>
+      <span style="color:#2ecc71;">от $${car.price} / сутки</span>
+    </div>`;
+  });
 
-show("screen-car");
+  show("screen-car");
 }
 
 function selectCar(name,price){
-bookingData.car = name;
-bookingData.price = price;
-show("screen-dates");
+  bookingData.car = name;
+  bookingData.price = price;
+  show("screen-dates");
 }
 
 function goToContacts(){
-bookingData.dateFrom = document.getElementById("dateFrom").value;
-bookingData.dateTo = document.getElementById("dateTo").value;
-show("screen-contacts");
-}
-<script>
-function sendBooking() {
-  bookingData.name = document.getElementById("clientName").value.trim();
-  bookingData.contact = document.getElementById("clientContact").value.trim();
-
   bookingData.dateFrom = document.getElementById("dateFrom").value;
   bookingData.dateTo   = document.getElementById("dateTo").value;
 
-  // чтобы твой doPost точно распознал миниапп
-  bookingData.type = "miniapp_booking";
-
-  // на всякий — добавим dates (если где-то еще используется)
-  bookingData.dates = (bookingData.dateFrom && bookingData.dateTo)
-    ? (bookingData.dateFrom + " — " + bookingData.dateTo)
-    : "";
-
-  // ✅ отправка без CORS и без preflight
-  const payload = JSON.stringify(bookingData);
-  const ok = navigator.sendBeacon(
-    SCRIPT_URL,
-    new Blob([payload], { type: "text/plain;charset=UTF-8" })
-  );
-
-  // sendBeacon возвращает true/false — этого достаточно
-  if (ok) {
-    show("screen-success");
-  } else {
-    alert("Ошибка отправки. Попробуйте позже.");
+  if(!bookingData.dateFrom || !bookingData.dateTo){
+    alert("Укажите даты аренды");
+    return;
   }
+
+  show("screen-contacts");
 }
+
+function sendBooking(){
+
+  bookingData.name = document.getElementById("clientName").value.trim();
+  bookingData.contact = document.getElementById("clientContact").value.trim();
+
+  if(!bookingData.name || !bookingData.contact){
+    alert("Введите имя и контакт");
+    return;
+  }
+
+  bookingData.type = "miniapp_booking";
+  bookingData.dates = bookingData.dateFrom + " — " + bookingData.dateTo;
+
+  fetch(SCRIPT_URL,{
+    method:"POST",
+    body: JSON.stringify(bookingData)
+  })
+  .then(()=> {
+    show("screen-success");
+  })
+  .catch(()=>{
+    alert("Ошибка отправки. Попробуйте позже.");
+  });
+
+}
+
 </script>
