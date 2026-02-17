@@ -3,99 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RentCarNT</title>
+<title>RentCar NT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(180deg, #0b0b0b 0%, #111 100%);
+  font-family: 'Montserrat', sans-serif;
+  background: #0f0f0f;
   color: white;
 }
 
 header {
   text-align: center;
-  padding: 22px 15px;
-  font-size: 22px;
+  padding: 18px;
+  font-size: 20px;
   font-weight: 600;
 }
 
 .container {
-  padding: 0 16px 40px;
+  padding: 16px;
 }
 
 .card {
-  background: linear-gradient(145deg, #151515, #101010);
-  border-radius: 22px;
+  background: #1a1a1a;
+  border-radius: 18px;
   overflow: hidden;
-  margin-bottom: 26px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
 .card img {
   width: 100%;
-  height: 260px;
-  object-fit: cover;
-  display: block;
+  height: 220px;
+  object-fit: contain;
+  background: #111;
 }
 
 .card-content {
-  padding: 18px;
+  padding: 16px;
 }
 
 .car-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .price {
-  color: #42d97c;
   font-size: 16px;
-  margin-bottom: 16px;
+  color: #4ade80;
+  font-weight: 600;
+  margin-bottom: 14px;
 }
 
 .btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(90deg, #4ade80, #22c55e);
+  display: block;
+  text-align: center;
+  background: linear-gradient(135deg, #00b3ff, #0077ff);
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
   color: white;
-  cursor: pointer;
-}
-
-.btn:hover {
-  opacity: 0.9;
+  font-weight: 600;
 }
 </style>
-
 </head>
+
 <body>
 
 <header>Аренда авто во Вьетнаме</header>
 
 <div class="container">
 
-  <div class="card">
-    <img src="photo_2026-02-15 19.08.34.jpeg" alt="Hyundai Kona">
-    <div class="card-content">
-      <div class="car-title">Hyundai Kona</div>
-      <div class="price">от 40$ / сутки</div>
-      <button class="btn">Забронировать</button>
-    </div>
+<!-- KONA -->
+<div class="card">
+  <img src="photo_2026-02-15%2019.08.34.jpeg" alt="Hyundai Kona">
+  <div class="card-content">
+    <div class="car-title">Hyundai Kona</div>
+    <div class="price">от 40$ / сутки</div>
+    <a href="https://t.me/rentcarnt_bot?start=kona" class="btn">
+      Забронировать
+    </a>
   </div>
+</div>
 
-  <div class="card">
-    <img src="photo_2026-02-16 00.43.52.jpeg" alt="Mazda CX-5">
-    <div class="card-content">
-      <div class="car-title">Mazda CX-5</div>
-      <div class="price">от 52$ / сутки</div>
-      <button class="btn">Забронировать</button>
-    </div>
+<!-- MAZDA -->
+<div class="card">
+  <img src="photo_2026-02-16%2000.43.52.jpeg" alt="Mazda CX-5">
+  <div class="card-content">
+    <div class="car-title">Mazda CX-5</div>
+    <div class="price">от 52$ / сутки</div>
+    <a href="https://t.me/rentcarnt_bot?start=cx5" class="btn">
+      Забронировать
+    </a>
   </div>
+</div>
 
 </div>
 
