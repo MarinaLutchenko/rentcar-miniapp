@@ -41,17 +41,20 @@
     .card:hover{ border:1px solid #2ecc71; }
     .card:active{ transform: scale(0.99); }
 
-    .btn{
-      width:100%;
-      padding:16px;
-      background:#2ecc71;
-      border:none;
-      border-radius:14px;
-      font-size:16px;
-      font-weight:700;
-      margin-top:10px;
-      cursor:pointer;
-    }
+   .btn{
+  display:block;
+  width:100%;
+  max-width:360px;        /* <- кнопка не растягивается на весь экран */
+  margin:10px auto 0;     /* <- центрируем */
+  padding:16px;
+  background:#2ecc71;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  color:#fff;             /* <- чтобы текст не становился черным */
+}
     .btn:active{ transform: scale(0.99); }
     .btn.secondary{
       background:#1c1c1c;
