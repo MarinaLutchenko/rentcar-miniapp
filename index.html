@@ -130,6 +130,31 @@ function selectCar(car, price) {
     "Цена: $" + bookingData.price
   );
 }
+  function sendBooking() {
+  const message =
+    "🚗 Новая заявка с мини-приложения:\n\n" +
+    "Город: " + bookingData.city + "\n" +
+    "Сегмент: " + bookingData.segment + "\n" +
+    "Авто: " + bookingData.car + "\n" +
+    "Цена: $" + bookingData.price;
+
+  fetch("https://api.telegram.org/8518849165:AAG8ZgCYKnuN2X7AGE1MsHIN9UDZwgsGgYg/sendMessage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: "-5260447557",
+      text: message
+    })
+  })
+  .then(() => {
+    alert("✅ Ваша заявка отправлена.\nМенеджер свяжется с вами в ближайшее время.");
+  })
+  .catch(() => {
+    alert("❌ Ошибка отправки заявки. Попробуйте позже.");
+  });
+}
 </script>
 
 </body>
