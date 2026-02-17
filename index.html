@@ -3,182 +3,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Аренда авто во Вьетнаме</title>
+<title>RentCarNT</title>
 
 <style>
 body{
     margin:0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background:#0f0f0f;
-    color:white;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+    background:#0e0e0e;
+    color:#fff;
 }
 
 .container{
     padding:20px;
+    max-width:500px;
+    margin:auto;
 }
 
 h1{
-    text-align:center;
-    margin-bottom:30px;
+    font-size:22px;
+    margin-bottom:25px;
 }
 
-.button{
-    background:#1c1c1e;
-    padding:18px;
-    margin-bottom:15px;
-    border-radius:14px;
-    text-align:center;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.2s;
-}
-
-.button:hover{
-    background:#2c2c2e;
-}
-
-.car-card{
-    background:#1c1c1e;
+.card{
+    background:#1c1c1c;
+    padding:16px;
     border-radius:16px;
-    margin-bottom:20px;
-    overflow:hidden;
-}
-
-.car-card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-}
-
-.car-info{
-    padding:15px;
-}
-
-.book-btn{
-    background:#2ecc71;
-    padding:15px;
-    text-align:center;
-    border-radius:12px;
-    margin-top:10px;
+    margin-bottom:14px;
     cursor:pointer;
+    transition:.2s;
+    border:1px solid transparent;
+}
+
+.card:hover{
+    border:1px solid #2ecc71;
+}
+
+.btn{
+    width:100%;
+    padding:16px;
+    background:#2ecc71;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
     font-weight:600;
+    margin-top:20px;
+    cursor:pointer;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border-radius:12px;
+    border:none;
+    background:#1c1c1c;
+    color:#fff;
+    font-size:15px;
+}
+
+.hidden{ display:none; }
+
+.subtitle{
+    color:#888;
+    font-size:14px;
+    margin-bottom:15px;
 }
 
 .success{
-    margin-top:20px;
-    background:#1f3d2b;
-    padding:15px;
-    border-radius:12px;
+    background:#1c1c1c;
+    padding:20px;
+    border-radius:16px;
+    text-align:center;
 }
 </style>
 </head>
-
 <body>
 
-<div class="container" id="app">
+<div class="container">
 
-<h1>🚗 Аренда авто во Вьетнаме</h1>
-
+<!-- ЭКРАН 1 ГОРОДА -->
 <div id="screen-city">
+<h1>Выберите город аренды</h1>
 
-<div class="button" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
-<div class="button" onclick="selectCity('Муйне')">🌴 Муйне</div>
-<div class="button" onclick="selectCity('Фукуок')">🏖 Фукуок</div>
-<div class="button" onclick="selectCity('Дананг')">🌊 Дананг</div>
-<div class="button" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
-<div class="button" onclick="selectCity('Ханой')">🏯 Ханой</div>
+<div class="card" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
+<div class="card" onclick="selectCity('Муйне')">🌴 Муйне</div>
+<div class="card" onclick="selectCity('Фукуок')">🌊 Фукуок</div>
+<div class="card" onclick="selectCity('Дананг')">🌅 Дананг</div>
+<div class="card" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
+<div class="card" onclick="selectCity('Ханой')">🏛 Ханой</div>
 
 </div>
 
-<div id="screen-segment" style="display:none;">
 
-<div class="button" onclick="selectSegment('Баланс комфорта и практичности')">
+<!-- ЭКРАН 2 СЕГМЕНТЫ -->
+<div id="screen-segment" class="hidden">
+<h1>Какой формат авто вам подойдёт?</h1>
+
+<div class="card" onclick="selectSegment('Баланс комфорта и практичности')">
 🚗 Баланс комфорта и практичности
 </div>
 
-<div class="button" onclick="selectSegment('Комфорт для трассы и гор')">
-🚙 Комфорт для трассы и гор
+<div class="card" onclick="selectSegment('Комфорт для трассы и горных дорог')">
+🚙 Комфорт для трассы и горных дорог
 </div>
 
-<div class="button" onclick="selectSegment('Простор для семьи и компании')">
+<div class="card" onclick="selectSegment('Простор для семьи и компании')">
 👨‍👩‍👧 Простор для семьи и компании
 </div>
 
+<div class="card" onclick="selectSegment('Электромобили нового поколения')">
+⚡ Электромобили нового поколения
 </div>
 
-<div id="screen-cars" style="display:none;">
-
-<div class="car-card">
-<img src="photo_2026-02-15 19.08.34.jpeg">
-<div class="car-info">
-<h3>Hyundai Kona</h3>
-<p>от 40$ / сутки</p>
-<div class="book-btn" onclick="selectCar('Hyundai Kona',40)">Выбрать</div>
-</div>
+<div class="card" onclick="selectSegment('Бизнес и представительский класс')">
+💎 Бизнес и представительский класс
 </div>
 
 </div>
 
-<div id="screen-dates" style="display:none;">
 
-<input type="date" id="dateFrom" style="width:100%;padding:15px;border-radius:10px;margin-bottom:10px;">
-<input type="date" id="dateTo" style="width:100%;padding:15px;border-radius:10px;">
+<!-- ЭКРАН 3 МАШИНЫ -->
+<div id="screen-car" class="hidden">
+<h1>Выберите автомобиль</h1>
 
-<div class="book-btn" onclick="sendBooking()">Отправить заявку</div>
+<div id="car-list"></div>
+
+</div>
+
+
+<!-- ЭКРАН 4 ДАТЫ -->
+<div id="screen-dates" class="hidden">
+<h1>Укажите даты аренды</h1>
+<div class="subtitle">Выберите даты поездки</div>
+
+<input type="date" id="dateFrom">
+<input type="date" id="dateTo">
+
+<button class="btn" onclick="goToContacts()">Далее</button>
 
 </div>
 
-<div id="result"></div>
+
+<!-- ЭКРАН 5 КОНТАКТЫ -->
+<div id="screen-contacts" class="hidden">
+<h1>Контактные данные</h1>
+<div class="subtitle">Менеджер свяжется с вами</div>
+
+<input type="text" id="clientName" placeholder="Ваше имя">
+<input type="text" id="clientContact" placeholder="Telegram или WhatsApp">
+
+<button class="btn" onclick="sendBooking()">Отправить заявку</button>
 
 </div>
+
+
+<!-- ЭКРАН 6 УСПЕХ -->
+<div id="screen-success" class="hidden">
+<div class="success">
+<h2>✅ Заявка отправлена</h2>
+<p>Менеджер свяжется с вами в ближайшее время.</p>
+<p style="margin-top:15px;color:#888;">
+Если вопрос срочный — напишите нам напрямую в Telegram.
+</p>
+</div>
+</div>
+
+</div>
+
 
 <script>
 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyC18Nc1yX9yfAhGVHGTGuHJdnGyaqcHCEuzoA_9Rp23BRECj27bz2T_v8v9OmIPhKT/exec";
+
 let bookingData = {};
 
+const cars = {
+"Баланс комфорта и практичности": [
+{ name:"Hyundai Kona", price:40 },
+{ name:"Mazda 2", price:35 }
+],
+"Комфорт для трассы и горных дорог": [
+{ name:"Mazda CX-5", price:52 }
+],
+"Простор для семьи и компании": [
+{ name:"Xpander", price:55 }
+],
+"Электромобили нового поколения": [
+{ name:"VinFast VF7", price:60 }
+],
+"Бизнес и представительский класс": [
+{ name:"Mercedes C300", price:95 }
+]
+};
+
+function show(id){
+document.querySelectorAll('[id^="screen"]').forEach(el=>el.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+}
+
 function selectCity(city){
-    bookingData.city = city;
-    document.getElementById("screen-city").style.display="none";
-    document.getElementById("screen-segment").style.display="block";
+bookingData.city = city;
+show("screen-segment");
 }
 
 function selectSegment(segment){
-    bookingData.segment = segment;
-    document.getElementById("screen-segment").style.display="none";
-    document.getElementById("screen-cars").style.display="block";
+bookingData.segment = segment;
+
+const list = document.getElementById("car-list");
+list.innerHTML = "";
+
+cars[segment].forEach(car=>{
+list.innerHTML += `
+<div class="card" onclick="selectCar('${car.name}', ${car.price})">
+<strong>${car.name}</strong><br>
+<span style="color:#2ecc71;">от $${car.price} / сутки</span>
+</div>`;
+});
+
+show("screen-car");
 }
 
-function selectCar(car,price){
-    bookingData.car = car;
-    bookingData.price = price;
-    document.getElementById("screen-cars").style.display="none";
-    document.getElementById("screen-dates").style.display="block";
+function selectCar(name,price){
+bookingData.car = name;
+bookingData.price = price;
+show("screen-dates");
+}
+
+function goToContacts(){
+bookingData.dateFrom = document.getElementById("dateFrom").value;
+bookingData.dateTo = document.getElementById("dateTo").value;
+show("screen-contacts");
 }
 
 function sendBooking(){
 
-    bookingData.dateFrom = document.getElementById("dateFrom").value;
-    bookingData.dateTo = document.getElementById("dateTo").value;
+bookingData.name = document.getElementById("clientName").value;
+bookingData.contact = document.getElementById("clientContact").value;
 
-    fetch("https://script.google.com/macros/s/AKfycbyC18Nc1yX9yfAhGVHGTGuHJdnGyaqcHCEuzoA_9Rp23BRECj27bz2T_v8v9OmIPhKT/exec",{
-        method:"POST",
-        body: JSON.stringify(bookingData)
-    })
-    .then(()=>{
-
-        document.getElementById("screen-dates").style.display="none";
-        document.getElementById("result").innerHTML=`
-        <div class="success">
-        ✅ Ваша заявка отправлена.<br>
-        Менеджер свяжется с вами в ближайшее время.<br><br>
-        Если вопрос срочный — напишите нам напрямую в Telegram.
-        </div>
-        `;
-
-    })
-    .catch(()=>{
-        alert("Ошибка отправки");
-    });
+fetch(SCRIPT_URL,{
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+body:JSON.stringify(bookingData)
+})
+.then(()=>{
+show("screen-success");
+})
+.catch(()=>{
+alert("Ошибка отправки. Попробуйте позже.");
+});
 
 }
 
