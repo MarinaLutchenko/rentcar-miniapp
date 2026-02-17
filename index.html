@@ -85,7 +85,11 @@
   max-width:420px;
   margin:0 auto 20px;
 }
-
+.success .btn{
+  max-width:320px;
+  margin:15px auto 0;
+  display:block;
+}
 .success h2{
   font-size:20px;
   margin-bottom:12px;
@@ -192,7 +196,13 @@
       <div class="success">
         <h2>✅ Заявка отправлена</h2>
         <p>Менеджер свяжется с вами в ближайшее время.</p>
-        <div class="hint">Если вопрос срочный — напишите нам напрямую в Telegram.</div>
+       <div class="hint">
+  Если вопрос срочный — напишите нам напрямую:
+</div>
+
+<a href="https://t.me/RentCarNT" class="btn" target="_blank">
+  ✉️ Написать менеджеру
+</a>
       </div>
       <button class="btn secondary" onclick="resetFlow()">Оставить ещё заявку</button>
     </div>
