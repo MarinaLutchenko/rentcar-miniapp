@@ -1,406 +1,218 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RentCarNT</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RentCarNT</title>
 
-  <style>
-    <style>
-
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  width:100%;
-  overflow-x:hidden;
-}
+<style>
+*{box-sizing:border-box;}
 
 body{
-    margin:0;
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-      background:#0e0e0e;
-      color:#fff;
-    }
-    .container{
-      padding:20px;
-      max-width:520px;
-      margin:auto;
-    }
-    h1{
-      font-size:22px;
-      margin-bottom:18px;
-    }
-    .subtitle{
-      color:#8b8b8b;
-      font-size:14px;
-      margin-bottom:14px;
-      line-height:1.35;
-    }
-    .card{
-      background:#1c1c1c;
-      padding:16px;
-      border-radius:16px;
-      margin-bottom:12px;
-      cursor:pointer;
-      transition:.15s;
-      border:1px solid transparent;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-      color:#ffffff;
-    }
-    .card:hover{ border:1px solid #2ecc71; }
-    .card:active{ transform: scale(0.99); }
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#0e0e0e;
+  color:#ffffff;
+}
 
-    .btn{
-      width:100%;
-      padding:16px;
-      background:#2ecc71;
-      border:none;
-      border-radius:14px;
-      font-size:16px;
-      font-weight:700;
-      margin-top:10px;
-      cursor:pointer;
-      color:#ffffff;
-    }
-    .btn:active{ transform: scale(0.99); }
-    .btn.secondary{
-      background:#1c1c1c;
-      color:#fff;
-      border:1px solid #2b2b2b;
-      font-weight:600;
-    }
+.container{
+  padding:20px;
+  max-width:520px;
+  margin:auto;
+}
 
-    input{
-      width:100%;
-      padding:14px;
-      margin-bottom:12px;
-      border-radius:12px;
-      border:none;
-      background:#1c1c1c;
-      color:#fff;
-      font-size:15px;
-      outline:none;
-    }
+h1{
+  font-size:22px;
+  margin-bottom:20px;
+  color:#ffffff;
+}
 
-    .hidden{ display:none; }
+.subtitle{
+  color:#b5b5b5;
+  font-size:14px;
+  margin-bottom:15px;
+}
 
-    .success{
-      background:#1c1c1c;
-      padding:18px;
-      border-radius:16px;
-      text-align:center;
-    }
-    .hint{
-      margin-top:12px;
-      color:#9a9a9a;
-      font-size:13px;
-      line-height:1.35;
-    }
+.card{
+  background:#1c1c1c;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:14px;
+  cursor:pointer;
+  transition:.15s;
+  border:1px solid transparent;
+  color:#ffffff;
+}
 
-    /* маленькая плашка ошибок (чтобы не было "белый экран") */
-    .errorBox{
-      margin-top:14px;
-      background:#2b1515;
-      border:1px solid #8a2e2e;
-      color:#ffd9d9;
-      padding:12px;
-      border-radius:12px;
-      font-size:13px;
-      white-space:pre-wrap;
-    }
-  </style>
+.card:hover{
+  border:1px solid #2ecc71;
+}
+
+.card:active{
+  transform:scale(0.98);
+}
+
+.btn{
+  width:100%;
+  padding:16px;
+  background:#2ecc71;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:600;
+  margin-top:15px;
+  cursor:pointer;
+  color:#ffffff;
+}
+
+.btn.secondary{
+  background:#1c1c1c;
+  border:1px solid #2ecc71;
+  color:#ffffff;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:12px;
+  border:none;
+  background:#1c1c1c;
+  color:#ffffff;
+  font-size:15px;
+}
+
+input::placeholder{
+  color:#777;
+}
+
+.success{
+  background:#1c1c1c;
+  padding:25px;
+  border-radius:18px;
+  text-align:center;
+  color:#ffffff;
+}
+
+.hidden{display:none;}
+</style>
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
 
-    <!-- ЭКРАН 1: ГОРОД -->
-    <div id="screen-city">
-      <h1>Выберите город аренды</h1>
+<!-- ГОРОДА -->
+<div id="screen-city">
+<h1>Выберите город аренды</h1>
 
-      <div class="card" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
-      <div class="card" onclick="selectCity('Муйне/Фантьет')">🌴 Муйне/Фантьет</div>
-      <div class="card" onclick="selectCity('Фукуок')">🏖️ Фукуок</div>
-      <div class="card" onclick="selectCity('Дананг')">🌅 Дананг</div>
-      <div class="card" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
-      <div class="card" onclick="selectCity('Ханой')">🏛 Ханой</div>
+<div class="card" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
+<div class="card" onclick="selectCity('Муйне')">🌴 Муйне</div>
+<div class="card" onclick="selectCity('Фукуок')">🌊 Фукуок</div>
+<div class="card" onclick="selectCity('Дананг')">🌅 Дананг</div>
+<div class="card" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
+<div class="card" onclick="selectCity('Ханой')">🏛 Ханой</div>
+</div>
 
-      <div id="error-city" class="errorBox hidden"></div>
-    </div>
+<!-- ДАТЫ -->
+<div id="screen-dates" class="hidden">
+<h1>Укажите даты аренды</h1>
+<div class="subtitle">Выберите даты поездки</div>
 
-    <!-- ЭКРАН 2: СЕГМЕНТ -->
-    <div id="screen-segment" class="hidden">
-      <h1>Какой формат авто вам подойдёт?</h1>
+<input type="date" id="dateFrom">
+<input type="date" id="dateTo">
 
-      <div class="card" onclick="selectSegment('Баланс комфорта и практичности')">🚗 Баланс комфорта и практичности</div>
-      <div class="card" onclick="selectSegment('Комфорт для трассы и горных дорог')">🚙 Комфорт для трассы и горных дорог</div>
-      <div class="card" onclick="selectSegment('Простор для семьи и компании')">👨‍👩‍👧 Простор для семьи и компании</div>
-      <div class="card" onclick="selectSegment('Электромобили нового поколения')">⚡ Электромобили нового поколения</div>
-      <div class="card" onclick="selectSegment('Бизнес и представительский класс')">💎 Бизнес и представительский класс</div>
+<button class="btn" onclick="goToContacts()">Далее</button>
+<button class="btn secondary" onclick="backToCity()">← Назад</button>
+</div>
 
-      <button class="btn secondary" onclick="backTo('screen-city')">← Назад</button>
-      <div id="error-segment" class="errorBox hidden"></div>
-    </div>
+<!-- КОНТАКТЫ -->
+<div id="screen-contacts" class="hidden">
+<h1>Контактные данные</h1>
+<div class="subtitle">Менеджер свяжется с вами</div>
 
-    <!-- ЭКРАН 3: МАШИНЫ -->
-    <div id="screen-car" class="hidden">
-      <h1>Выберите автомобиль</h1>
-      <div class="subtitle">Покажем варианты из выбранного формата.</div>
+<input type="text" id="clientName" placeholder="Ваше имя">
+<input type="text" id="clientContact" placeholder="Telegram или WhatsApp">
 
-      <div id="car-list"></div>
+<button class="btn" onclick="sendBooking()">Отправить заявку</button>
+<button class="btn secondary" onclick="backToDates()">← Назад</button>
+</div>
 
-      <button class="btn secondary" onclick="backTo('screen-segment')">← Назад</button>
-      <div id="error-car" class="errorBox hidden"></div>
-    </div>
+<!-- УСПЕХ -->
+<div id="screen-success" class="hidden">
+<div class="success">
+<h2>✅ Заявка отправлена</h2>
+<p>Менеджер свяжется с вами в ближайшее время.</p>
 
-    <!-- ЭКРАН 4: ДАТЫ -->
-    <div id="screen-dates" class="hidden">
-      <h1>Укажите даты аренды</h1>
-      <div class="subtitle">Выберите даты поездки (без времени — это нормально).</div>
+<button class="btn" onclick="window.open('https://t.me/RentCarNT')">
+✉️ Написать менеджеру
+</button>
 
-      <input type="date" id="dateFrom" />
-      <input type="date" id="dateTo" />
+<button class="btn secondary" onclick="resetApp()">
+Оставить ещё заявку
+</button>
+</div>
+</div>
 
-      <button class="btn" onclick="goToContacts()">Далее</button>
-      <button class="btn secondary" onclick="backTo('screen-car')">← Назад</button>
-
-      <div id="error-dates" class="errorBox hidden"></div>
-    </div>
-
-    <!-- ЭКРАН 5: КОНТАКТЫ -->
-    <div id="screen-contacts" class="hidden">
-      <h1>Контактные данные</h1>
-      <div class="subtitle">Менеджер свяжется с вами в ближайшее время.</div>
-
-      <input type="text" id="clientName" placeholder="Ваше имя" />
-      <input type="text" id="clientContact" placeholder="Telegram или WhatsApp" />
-
-      <button class="btn" onclick="sendBooking()">Отправить заявку</button>
-      <button class="btn secondary" onclick="backTo('screen-dates')">← Назад</button>
-
-      <div id="error-contacts" class="errorBox hidden"></div>
-    </div>
-
-    <!-- ЭКРАН 6: УСПЕХ -->
-   <div id="screen-success" class="hidden">
-  <div class="success">
-    <h2>✅ Заявка отправлена</h2>
-    <p>Менеджер свяжется с вами в ближайшее время.</p>
-
-    <div style="margin-top:15px; color:#888;">
-      Если вопрос срочный — напишите нам напрямую:
-    </div>
-
-    <a href="https://t.me/RentCarNT" target="_blank">
-      <button class="btn" style="margin-top:15px;">
-        📩 Написать менеджеру
-      </button>
-    </a>
-  </div>
-
-  <button class="btn" style="margin-top:15px; background:#1c1c1c;"
-    onclick="location.reload()">
-    Оставить ещё заявку
-  </button>
 </div>
 
 <script>
-  // ВАЖНО: твой "верный" Apps Script URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw83bucvRMn2_TNmmLoDhnVSL5Eeh3nA01-ANetMaGh7sqET43VMiTcxVKt24mx_aU/exec";
 
-  // Данные заявки
-  let bookingData = {};
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw83bucvRMn2_TNmmLoDhnVSL5Eeh3nA01-ANetMaGh7sqET43VMiTcxVKt24mx_aU/exec";
 
-  // Машины (пока демо — потом расширим)
-  const cars = {
-    "Баланс комфорта и практичности": [
-      { name:"Hyundai Kona", price:40 },
-      { name:"Mazda 2", price:35 },
-      { name:"Mazda 3", price:40 },
-      { name:"Honda City", price:35 }
-    ],
-    "Комфорт для трассы и горных дорог": [
-      { name:"Mazda CX-5", price:52 },
-      { name:"Mazda CX-30", price:50 },
-      { name:"Hyundai Creta", price:45 }
-    ],
-    "Простор для семьи и компании": [
-      { name:"Xpander (7 мест)", price:55 },
-      { name:"Carens (7 мест)", price:65 }
-    ],
-    "Электромобили нового поколения": [
-      { name:"VinFast VF7", price:60 },
-      { name:"VinFast VF5", price:45 }
-    ],
-    "Бизнес и представительский класс": [
-      { name:"Mercedes C300", price:95 }
-    ]
-  };
+let bookingData = {};
 
-  // Показываем ошибки вместо "белого экрана"
-  window.onerror = function(message, source, lineno, colno) {
-    const box = document.getElementById("error-city");
-    if (box) {
-      box.classList.remove("hidden");
-      box.textContent = "JS ошибка:\n" + message + "\n" + (source || "") + ":" + lineno + ":" + colno;
+function show(id){
+  document.querySelectorAll('[id^="screen"]').forEach(el=>el.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function selectCity(city){
+  bookingData.city = city;
+  show("screen-dates");
+}
+
+function backToCity(){
+  show("screen-city");
+}
+
+function goToContacts(){
+  bookingData.dateFrom = document.getElementById("dateFrom").value;
+  bookingData.dateTo = document.getElementById("dateTo").value;
+  show("screen-contacts");
+}
+
+function backToDates(){
+  show("screen-dates");
+}
+
+function sendBooking(){
+
+  bookingData.name = document.getElementById("clientName").value;
+  bookingData.contact = document.getElementById("clientContact").value;
+
+  fetch(SCRIPT_URL,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(bookingData)
+  })
+  .then(r=>r.json())
+  .then(res=>{
+    if(res.status==="ok"){
+      show("screen-success");
+    }else{
+      alert("Ошибка отправки.");
     }
-  };
+  })
+  .catch(()=>{
+    alert("Ошибка отправки.");
+  });
+}
 
-  function show(screenId){
-    document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
-    const el = document.getElementById(screenId);
-    if (el) el.classList.remove('hidden');
-  }
+function resetApp(){
+  bookingData = {};
+  show("screen-city");
+}
 
-  function backTo(screenId){
-    show(screenId);
-  }
-
-  function setError(id, text){
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (!text) {
-      el.classList.add("hidden");
-      el.textContent = "";
-      return;
-    }
-    el.classList.remove("hidden");
-    el.textContent = text;
-  }
-
-  function selectCity(city){
-    bookingData = {}; // начинаем чисто
-    bookingData.city = city;
-    setError("error-city", "");
-    show("screen-segment");
-  }
-
-  function selectSegment(segment){
-    bookingData.segment = segment;
-    setError("error-segment", "");
-
-    const list = document.getElementById("car-list");
-    list.innerHTML = "";
-
-    const items = cars[segment] || [];
-    if (!items.length) {
-      setError("error-car", "Пока нет машин в этом формате. Мы добавим — выберите другой формат.");
-      show("screen-car");
-      return;
-    }
-
-    items.forEach(car => {
-      const div = document.createElement("div");
-      div.className = "card";
-      div.onclick = () => selectCar(car.name, car.price);
-      div.innerHTML = `
-        <strong>${car.name}</strong><br>
-        <span style="color:#2ecc71;">от $${car.price} / сутки</span>
-      `;
-      list.appendChild(div);
-    });
-
-    show("screen-car");
-  }
-
-  function selectCar(name, price){
-    bookingData.car = name;
-    bookingData.price = price;
-    setError("error-car", "");
-    show("screen-dates");
-  }
-
-  function goToContacts(){
-    const from = document.getElementById("dateFrom").value;
-    const to = document.getElementById("dateTo").value;
-
-    if (!from || !to) {
-      setError("error-dates", "Пожалуйста, выберите обе даты.");
-      return;
-    }
-    if (to < from) {
-      setError("error-dates", "Дата окончания не может быть раньше даты начала.");
-      return;
-    }
-
-    bookingData.dateFrom = from;
-    bookingData.dateTo = to;
-
-    // Сформируем поле, которое удобно менеджеру и совпадает с твоим handleMiniAppBooking(data.dates)
-    bookingData.dates = `${from} — ${to}`;
-
-    setError("error-dates", "");
-    show("screen-contacts");
-  }
-
-  async function sendBooking(){
-    const name = (document.getElementById("clientName").value || "").trim();
-    const contact = (document.getElementById("clientContact").value || "").trim();
-
-    if (!name || !contact) {
-      setError("error-contacts", "Введите имя и контакт (Telegram/WhatsApp).");
-      return;
-    }
-
-    bookingData.name = name;
-    bookingData.contact = contact;
-
-    // ВАЖНО: чтобы doPost точно понял, что это миниапп
-    bookingData.type = "miniapp_booking";
-
-    setError("error-contacts", "");
-
-    try {
-      // КЛЮЧЕВОЕ: НИКАКИХ headers. Иначе будет preflight и Apps Script блокируется.
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(bookingData) // будет text/plain -> без preflight
-      });
-
-      // Даже если нельзя прочитать тело, факт успешного fetch уже значит "долетело".
-      // Но попробуем прочитать JSON (на некоторых устройствах читается нормально)
-      let ok = true;
-      try {
-        const data = await res.json();
-        ok = (data && data.status === "ok");
-      } catch(e) {
-        // если json не прочитался — всё равно считаем успехом, если запрос не упал
-        ok = true;
-      }
-
-      if (ok) {
-        show("screen-success");
-      } else {
-        setError("error-contacts", "Сервер ответил ошибкой. Проверь Apps Script / лист 'Заявки'.");
-      }
-
-    } catch (err) {
-      setError("error-contacts", "Ошибка отправки (сеть/доступ). Но это уже НЕ CORS.\n" + String(err));
-    }
-  }
-
-  function resetFlow(){
-    bookingData = {};
-    document.getElementById("dateFrom").value = "";
-    document.getElementById("dateTo").value = "";
-    document.getElementById("clientName").value = "";
-    document.getElementById("clientContact").value = "";
-    setError("error-city", "");
-    setError("error-segment", "");
-    setError("error-car", "");
-    setError("error-dates", "");
-    setError("error-contacts", "");
-    show("screen-city");
-  }
-
-  // старт
-  resetFlow();
 </script>
-
 </body>
 </html>
