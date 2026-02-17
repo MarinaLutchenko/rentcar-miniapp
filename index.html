@@ -1,107 +1,200 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RentCar NT</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentCarNT</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b0b0b;
+      --card: #151515;
+      --muted: #b9b9b9;
+      --white: #ffffff;
+      --accent: #2fd07b;
+      --accent2: #21b56a;
+      --shadow: 0 14px 40px rgba(0,0,0,.55);
+      --radius: 22px;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  background: #0f0f0f;
-  color: white;
-}
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(47,208,123,.10), transparent 60%),
+                  radial-gradient(900px 600px at 100% 10%, rgba(47,208,123,.06), transparent 55%),
+                  var(--bg);
+      color: var(--white);
+    }
 
-header {
-  text-align: center;
-  padding: 18px;
-  font-size: 20px;
-  font-weight: 600;
-}
+    header{
+      text-align:center;
+      padding: 22px 14px 10px;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
 
-.container {
-  padding: 16px;
-}
+    .container{
+      width: min(520px, 92vw);
+      margin: 0 auto;
+      padding: 10px 0 30px;
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
 
-.card {
-  background: #1a1a1a;
-  border-radius: 18px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
 
-.card img {
-  width: 100%;
-  height: 220px;
-  object-fit: contain;
-  background: #111;
-}
+    /* Ключевой фикс: одинаковая “рамка” под фото, чтобы вертикальные фото не были гигантами */
+    .card-image{
+      width: 100%;
+      aspect-ratio: 16 / 10;   /* одинаковая высота у всех карточек */
+      background: #0e0e0e;
+      overflow:hidden;
+      position:relative;
+    }
 
-.card-content {
-  padding: 16px;
-}
+    .card-image img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;        /* красиво заполняет карточку */
+      object-position: center;  /* базово по центру */
+      display:block;
+      transform: translateZ(0);
+    }
 
-.car-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
+    /* Точечная настройка, чтобы мазда не “съедалась” снизу */
+    .img-mazda{ object-position: center 65%; }
 
-.price {
-  font-size: 16px;
-  color: #4ade80;
-  font-weight: 600;
-  margin-bottom: 14px;
-}
+    /* Если вдруг у Коны будет резать бампер — чуть сместим вниз */
+    .img-kona{ object-position: center 55%; }
 
-.btn {
-  display: block;
-  text-align: center;
-  background: linear-gradient(135deg, #00b3ff, #0077ff);
-  padding: 12px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: white;
-  font-weight: 600;
-}
-</style>
+    .card-content{
+      padding: 16px 16px 18px;
+      background: rgba(0,0,0,.22);
+      backdrop-filter: blur(6px);
+    }
+
+    .car-title{
+      font-size: 28px;
+      font-weight: 800;
+      margin: 2px 0 6px;
+    }
+
+    .price{
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0 0 14px;
+    }
+
+    .btn{
+      width: 100%;
+      border: 0;
+      padding: 16px 18px;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 12px 22px rgba(47,208,123,.18);
+    }
+
+    .btn:active{ transform: translateY(1px); }
+
+    .note{
+      opacity:.75;
+      font-size: 12px;
+      text-align:center;
+      padding-top: 4px;
+    }
+  </style>
 </head>
 
 <body>
+  <header>Аренда авто во Вьетнаме</header>
 
-<header>Аренда авто во Вьетнаме</header>
+  <div class="container">
 
-<div class="container">
+    <!-- KONA -->
+    <div class="card">
+      <div class="card-image">
+        <img class="img-kona"
+             src="photo_2026-02-15%2019.08.34.jpeg"
+             alt="Hyundai Kona">
+      </div>
+      <div class="card-content">
+        <div class="car-title">Hyundai Kona</div>
+        <div class="price">от 40$ / сутки</div>
+        <button class="btn" data-car="kona" data-title="Hyundai Kona" data-price="40">
+          Забронировать
+        </button>
+      </div>
+    </div>
 
-<!-- KONA -->
-<div class="card">
-  <img src="photo_2026-02-15%2019.08.34.jpeg" alt="Hyundai Kona">
-  <div class="card-content">
-    <div class="car-title">Hyundai Kona</div>
-    <div class="price">от 40$ / сутки</div>
-    <a href="https://t.me/rentcarnt_bot?start=kona" class="btn">
-      Забронировать
-    </a>
+    <!-- MAZDA -->
+    <div class="card">
+      <div class="card-image">
+        <img class="img-mazda"
+             src="photo_2026-02-16%2000.43.52.jpeg"
+             alt="Mazda CX-5">
+      </div>
+      <div class="card-content">
+        <div class="car-title">Mazda CX-5</div>
+        <div class="price">от 52$ / сутки</div>
+        <button class="btn" data-car="mazda_cx5" data-title="Mazda CX-5" data-price="52">
+          Забронировать
+        </button>
+      </div>
+    </div>
+
+    <div class="note">RentCarNT • кнопка отправляет выбранное авто в Telegram-бот</div>
   </div>
-</div>
 
-<!-- MAZDA -->
-<div class="card">
-  <img src="photo_2026-02-16%2000.43.52.jpeg" alt="Mazda CX-5">
-  <div class="card-content">
-    <div class="car-title">Mazda CX-5</div>
-    <div class="price">от 52$ / сутки</div>
-    <a href="https://t.me/rentcarnt_bot?start=cx5" class="btn">
-      Забронировать
-    </a>
-  </div>
-</div>
+  <script>
+    // Ваш бот:
+    const BOT_USERNAME = "rentcarnt_bot";
 
-</div>
+    // Упакуем выбор в start-параметр (бот это сможет прочитать в /start payload)
+    function buildStartPayload({ car, title, price }) {
+      // Коротко и безопасно: car + цена (без пробелов)
+      // Пример: car_kona_40
+      return `car_${car}_${price}`;
+    }
 
+    function openBotWithSelection(payload) {
+      const link = `https://t.me/${BOT_USERNAME}?start=${encodeURIComponent(payload)}`;
+
+      // Если внутри Telegram WebApp — используем более “правильный” метод
+      if (window.Telegram && window.Telegram.WebApp) {
+        try {
+          window.Telegram.WebApp.openTelegramLink(link);
+          return;
+        } catch (e) {}
+      }
+
+      // В обычном браузере
+      window.open(link, "_blank");
+    }
+
+    document.querySelectorAll(".btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const car = btn.dataset.car;
+        const title = btn.dataset.title;
+        const price = btn.dataset.price;
+
+        const payload = buildStartPayload({ car, title, price });
+        openBotWithSelection(payload);
+      });
+    });
+  </script>
 </body>
 </html>
