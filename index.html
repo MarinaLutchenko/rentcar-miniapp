@@ -12,21 +12,25 @@
       background:#0e0e0e;
       color:#fff;
     }
+
     .container{
       padding:20px;
       max-width:520px;
-      margin:auto;
+      margin:0 auto;
     }
+
     h1{
       font-size:22px;
-      margin-bottom:18px;
+      margin:0 0 18px;
     }
+
     .subtitle{
       color:#8b8b8b;
       font-size:14px;
       margin-bottom:14px;
       line-height:1.35;
     }
+
     .card{
       background:#1c1c1c;
       padding:16px;
@@ -41,26 +45,32 @@
     .card:hover{ border:1px solid #2ecc71; }
     .card:active{ transform: scale(0.99); }
 
-   .btn{
-  display:block;
-  width:100%;
-  max-width:360px;        /* <- кнопка не растягивается на весь экран */
-  margin:10px auto 0;     /* <- центрируем */
-  padding:16px;
-  background:#2ecc71;
-  border:none;
-  border-radius:14px;
-  font-size:16px;
-  font-weight:700;
-  cursor:pointer;
-  color:#fff;             /* <- чтобы текст не становился черным */
-}
+    .btn{
+      width:100%;
+      padding:16px;
+      background:#2ecc71;
+      border:none;
+      border-radius:14px;
+      font-size:16px;
+      font-weight:700;
+      margin-top:10px;
+      cursor:pointer;
+      color:#0e0e0e; /* чтобы на зелёной было читабельно */
+    }
     .btn:active{ transform: scale(0.99); }
     .btn.secondary{
       background:#1c1c1c;
       color:#fff;
       border:1px solid #2b2b2b;
       font-weight:600;
+    }
+
+    /* чтобы ссылка-кнопка выглядела как кнопка */
+    a.btn{
+      display:block;
+      text-align:center;
+      text-decoration:none;
+      line-height:normal;
     }
 
     input{
@@ -75,31 +85,25 @@
       outline:none;
     }
 
-    .hidden{ display:none; }
+    /* ВАЖНО: hidden должен перебивать всё */
+    .hidden{ display:none !important; }
 
     .success{
-  background:#1c1c1c;
-  padding:18px;
-  border-radius:16px;
-  text-align:center;
-  max-width:420px;
-  margin:0 auto 20px;
-}
-.success .btn{
-  max-width:320px;
-  margin:15px auto 0;
-  display:block;
-}
-.success h2{
-  font-size:20px;
-  margin-bottom:12px;
-  word-break:break-word;
-}
+      background:#1c1c1c;
+      padding:18px;
+      border-radius:16px;
+      text-align:center;
+    }
+    .success h2{
+      margin:0 0 10px;
+      font-size:22px;
+      word-break:break-word;
+    }
+    .success p{
+      margin:0;
+      word-break:break-word;
+    }
 
-.success p{
-  margin:0;
-  word-break:break-word;
-}
     .hint{
       margin-top:12px;
       color:#9a9a9a;
@@ -107,7 +111,6 @@
       line-height:1.35;
     }
 
-    /* маленькая плашка ошибок (чтобы не было "белый экран") */
     .errorBox{
       margin-top:14px;
       background:#2b1515;
@@ -117,6 +120,17 @@
       border-radius:12px;
       font-size:13px;
       white-space:pre-wrap;
+    }
+
+    /* ✅ Экран успеха: центр + ограничение ширины (чтобы “не расползалось”) */
+    #screen-success{
+      display:flex;
+      justify-content:center;
+    }
+    .successWrap{
+      width:100%;
+      max-width:420px;  /* вот это и есть “не на весь экран” */
+      margin:0 auto;
     }
   </style>
 </head>
@@ -192,41 +206,32 @@
     </div>
 
     <!-- ЭКРАН 6: УСПЕХ -->
-  <div id="screen-success" class="hidden" style="display:flex; justify-content:center;">
-  <div style="width:100%; max-width:420px;">
+    <div id="screen-success" class="hidden">
+      <div class="successWrap">
 
-    <div class="success">
-      <h2>✅ Заявка отправлена</h2>
-      <p>Менеджер свяжется с вами в ближайшее время.</p>
-      <div class="hint">
-        Если вопрос срочный — напишите нам напрямую в Telegram.
+        <div class="success">
+          <h2>✅ Заявка отправлена</h2>
+          <p>Менеджер свяжется с вами в ближайшее время.</p>
+          <div class="hint">Если вопрос срочный — напишите нам напрямую в Telegram.</div>
+        </div>
+
+        <a class="btn" href="https://t.me/RentCarNT" target="_blank" rel="noopener noreferrer">
+          ✉️ Написать менеджеру
+        </a>
+
+        <button class="btn secondary" onclick="resetFlow()">Оставить ещё заявку</button>
+
       </div>
     </div>
 
-    <a href="https://t.me/RentCarNT"
-       class="btn"
-       target="_blank"
-       style="display:block; text-align:center; text-decoration:none; margin-top:12px;">
-       📩 Написать менеджеру
-    </a>
-
-    <button class="btn secondary"
-            onclick="resetFlow()"
-            style="margin-top:12px;">
-      Оставить ещё заявку
-    </button>
-
   </div>
-</div>
 
 <script>
-  // ВАЖНО: твой "верный" Apps Script URL
+  // ✅ твой верный Apps Script URL (НЕ ТРОГАЕМ)
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw83bucvRMn2_TNmmLoDhnVSL5Eeh3nA01-ANetMaGh7sqET43VMiTcxVKt24mx_aU/exec";
 
-  // Данные заявки
   let bookingData = {};
 
-  // Машины (пока демо — потом расширим)
   const cars = {
     "Баланс комфорта и практичности": [
       { name:"Hyundai Kona", price:40 },
@@ -252,24 +257,13 @@
     ]
   };
 
-  // Показываем ошибки вместо "белого экрана"
-  window.onerror = function(message, source, lineno, colno) {
-    const box = document.getElementById("error-city");
-    if (box) {
-      box.classList.remove("hidden");
-      box.textContent = "JS ошибка:\n" + message + "\n" + (source || "") + ":" + lineno + ":" + colno;
-    }
-  };
-
   function show(screenId){
     document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
     const el = document.getElementById(screenId);
     if (el) el.classList.remove('hidden');
   }
 
-  function backTo(screenId){
-    show(screenId);
-  }
+  function backTo(screenId){ show(screenId); }
 
   function setError(id, text){
     const el = document.getElementById(id);
@@ -284,7 +278,7 @@
   }
 
   function selectCity(city){
-    bookingData = {}; // начинаем чисто
+    bookingData = {};
     bookingData.city = city;
     setError("error-city", "");
     show("screen-segment");
@@ -299,7 +293,7 @@
 
     const items = cars[segment] || [];
     if (!items.length) {
-      setError("error-car", "Пока нет машин в этом формате. Мы добавим — выберите другой формат.");
+      setError("error-car", "Пока нет машин в этом формате. Выберите другой формат.");
       show("screen-car");
       return;
     }
@@ -340,8 +334,6 @@
 
     bookingData.dateFrom = from;
     bookingData.dateTo = to;
-
-    // Сформируем поле, которое удобно менеджеру и совпадает с твоим handleMiniAppBooking(data.dates)
     bookingData.dates = `${from} — ${to}`;
 
     setError("error-dates", "");
@@ -359,27 +351,23 @@
 
     bookingData.name = name;
     bookingData.contact = contact;
-
-    // ВАЖНО: чтобы doPost точно понял, что это миниапп
-    bookingData.type = "miniapp_booking";
+    bookingData.type = "miniapp_booking"; // оставляем как было
 
     setError("error-contacts", "");
 
     try {
-      // КЛЮЧЕВОЕ: НИКАКИХ headers. Иначе будет preflight и Apps Script блокируется.
+      // ✅ КЛЮЧЕВОЕ: без headers, чтобы не было CORS/preflight
       const res = await fetch(SCRIPT_URL, {
         method: "POST",
-        body: JSON.stringify(bookingData) // будет text/plain -> без preflight
+        body: JSON.stringify(bookingData)
       });
 
-      // Даже если нельзя прочитать тело, факт успешного fetch уже значит "долетело".
-      // Но попробуем прочитать JSON (на некоторых устройствах читается нормально)
+      // если ответ читается — проверим, если нет — всё равно считаем успехом, раз fetch не упал
       let ok = true;
       try {
         const data = await res.json();
         ok = (data && data.status === "ok");
       } catch(e) {
-        // если json не прочитался — всё равно считаем успехом, если запрос не упал
         ok = true;
       }
 
@@ -388,9 +376,8 @@
       } else {
         setError("error-contacts", "Сервер ответил ошибкой. Проверь Apps Script / лист 'Заявки'.");
       }
-
     } catch (err) {
-      setError("error-contacts", "Ошибка отправки (сеть/доступ). Но это уже НЕ CORS.\n" + String(err));
+      setError("error-contacts", "Ошибка отправки:\n" + String(err));
     }
   }
 
@@ -400,20 +387,17 @@
     document.getElementById("dateTo").value = "";
     document.getElementById("clientName").value = "";
     document.getElementById("clientContact").value = "";
+
     setError("error-city", "");
     setError("error-segment", "");
     setError("error-car", "");
     setError("error-dates", "");
     setError("error-contacts", "");
+
     show("screen-city");
   }
 
-  // старт
   resetFlow();
-  if (window.Telegram && Telegram.WebApp) {
-  Telegram.WebApp.expand();
-  Telegram.WebApp.disableVerticalSwipes();
-}
 </script>
 
 </body>
