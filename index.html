@@ -177,7 +177,7 @@ input{
 
 <script>
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyC18Nc1yX9yfAhGVHGTGuHJdnGyaqcHCEuzoA_9Rp23BRECj27bz2T_v8v9OmIPhKT/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0cNf2FTy_KLDHfnwnmLwKDzSvKf-Rxno6i5eMe69snTq29w7ze-ULsnk60KzoXasK/exec";
 
 let bookingData = {};
 
@@ -241,21 +241,31 @@ show("screen-contacts");
 
 function sendBooking(){
 
-bookingData.name = document.getElementById("clientName").value;
-bookingData.contact = document.getElementById("clientContact").value;
+  bookingData.name = document.getElementById("clientName").value;
+  bookingData.contact = document.getElementById("clientContact").value;
 
-fetch(SCRIPT_URL,{
-method:"POST",
-headers:{ "Content-Type":"application/json" },
-body:JSON.stringify(bookingData)
-})
-.then(()=>{
-show("screen-success");
-})
-.catch(()=>{
-alert("Ошибка отправки. Попробуйте позже.");
-});
-
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      type: "miniapp_booking",
+      city: bookingData.city,
+      car: bookingData.car,
+      dateFrom: bookingData.dateFrom,
+      dateTo: bookingData.dateTo,
+      name: bookingData.name,
+      contact: bookingData.contact
+    })
+  })
+  .then(response => response.json())
+  .then(() => {
+    show("screen-success");
+  })
+  .catch(() => {
+    alert("Ошибка отправки. Попробуйте позже.");
+  });
 }
 
 </script>
