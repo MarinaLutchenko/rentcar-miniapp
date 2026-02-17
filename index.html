@@ -406,10 +406,17 @@ html, body {
 
     show("screen-city");
   }
+function fixTelegramHeight() {
+  if (window.Telegram && Telegram.WebApp) {
+    const stableHeight = Telegram.WebApp.viewportStableHeight;
+    document.body.style.height = stableHeight + "px";
+  }
+}
+
 if (window.Telegram && Telegram.WebApp) {
-  Telegram.WebApp.ready();
-  Telegram.WebApp.expand();     // фиксируем высоту
-  Telegram.WebApp.disableVerticalSwipes();
+  Telegram.WebApp.expand();
+  fixTelegramHeight();
+  Telegram.WebApp.onEvent('viewportChanged', fixTelegramHeight);
 }
   resetFlow();
 </script>
