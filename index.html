@@ -1,67 +1,61 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RentCarNT</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RentCarNT</title>
 
-  <style>
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-      background:#0e0e0e;
-      color:#fff;
-    }
-html, body {
-  height: 100%;
-  overflow-x: hidden;
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+
+*{ box-sizing:border-box; }
+
+html, body{
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow-x:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#0e0e0e;
+  color:#fff;
 }
 
-
-   .container{
+.container{
   padding:20px;
   max-width:520px;
   margin:0 auto;
-  overflow:hidden;
 }
 
-    h1{
-      font-size:22px;
-      margin:0 0 18px;
-    }
-
-    .subtitle{
-      color:#8b8b8b;
-      font-size:14px;
-      margin-bottom:14px;
-      line-height:1.35;
-    }
-
-    .card{
-      background:#1c1c1c;
-      padding:16px;
-      border-radius:16px;
-      margin-bottom:12px;
-      cursor:pointer;
-      transition:.15s;
-      border:1px solid transparent;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .card:hover{ border:1px solid #2ecc71; }
-    .card:active{ transform: scale(0.99); }
-
-    *{
-  box-sizing:border-box;
+h1{
+  font-size:22px;
+  margin:0 0 18px;
 }
 
-*{
-  box-sizing:border-box;
+.subtitle{
+  color:#8b8b8b;
+  font-size:14px;
+  margin-bottom:14px;
+  line-height:1.35;
 }
+
+.card{
+  background:#1c1c1c;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:12px;
+  cursor:pointer;
+  transition:.15s;
+  border:1px solid transparent;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.card:hover{ border:1px solid #2ecc71; }
+.card:active{ transform:scale(0.99); }
 
 .btn{
   display:block;
-  width:calc(100% - 0px);
+  width:100%;
   padding:16px;
   border-radius:14px;
   font-size:16px;
@@ -72,6 +66,7 @@ html, body {
   border:none;
   text-decoration:none;
 }
+
 .btn.primary{
   background:#2ecc71;
   color:#0e0e0e !important;
@@ -83,341 +78,295 @@ html, body {
   border:1px solid #2b2b2b;
   font-weight:600;
 }
-    input{
-      width:100%;
-      padding:14px;
-      margin-bottom:12px;
-      border-radius:12px;
-      border:none;
-      background:#1c1c1c;
-      color:#fff;
-      font-size:15px;
-      outline:none;
-    }
 
-    /* ВАЖНО: hidden должен перебивать всё */
-    .hidden{ display:none !important; }
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:12px;
+  border:none;
+  background:#1c1c1c;
+  color:#fff;
+  font-size:15px;
+  outline:none;
+}
 
-    .success{
-      background:#1c1c1c;
-      padding:18px;
-      border-radius:16px;
-      text-align:center;
-    }
-    .success h2{
-      margin:0 0 10px;
-      font-size:22px;
-      word-break:break-word;
-    }
-    .success p{
-      margin:0;
-      word-break:break-word;
-    }
+.hidden{ display:none !important; }
 
-    .hint{
-      margin-top:12px;
-      color:#9a9a9a;
-      font-size:13px;
-      line-height:1.35;
-    }
+.successWrap{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+}
 
-    .errorBox{
-      margin-top:14px;
-      background:#2b1515;
-      border:1px solid #8a2e2e;
-      color:#ffd9d9;
-      padding:12px;
-      border-radius:12px;
-      font-size:13px;
-      white-space:pre-wrap;
-    }
+.success{
+  background:#1c1c1c;
+  padding:18px;
+  border-radius:16px;
+  text-align:center;
+}
 
-    /* ✅ Экран успеха: центр + ограничение ширины (чтобы “не расползалось”) */
-    
-    .successWrap{
-      width:100%;
-      max-width:420px;  /* вот это и есть “не на весь экран” */
-      margin:0 auto;
-    }
-  </style>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+.success h2{
+  margin:0 0 10px;
+  font-size:22px;
+}
+
+.hint{
+  margin-top:12px;
+  color:#9a9a9a;
+  font-size:13px;
+}
+
+.errorBox{
+  margin-top:14px;
+  background:#2b1515;
+  border:1px solid #8a2e2e;
+  color:#ffd9d9;
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  white-space:pre-wrap;
+}
+
+</style>
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
 
-    <!-- ЭКРАН 1: ГОРОД -->
-    <div id="screen-city">
-      <h1>Выберите город аренды</h1>
+<!-- ГОРОД -->
+<div id="screen-city">
+<h1>Выберите город аренды</h1>
 
-      <div class="card" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
-      <div class="card" onclick="selectCity('Муйне/Фантьет')">🌴 Муйне/Фантьет</div>
-      <div class="card" onclick="selectCity('Фукуок')">🏖️ Фукуок</div>
-      <div class="card" onclick="selectCity('Дананг')">🌅 Дананг</div>
-      <div class="card" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
-      <div class="card" onclick="selectCity('Ханой')">🏛 Ханой</div>
+<div class="card" onclick="selectCity('Нячанг')">🏝 Нячанг</div>
+<div class="card" onclick="selectCity('Муйне/Фантьет')">🌴 Муйне/Фантьет</div>
+<div class="card" onclick="selectCity('Фукуок')">🏖️ Фукуок</div>
+<div class="card" onclick="selectCity('Дананг')">🌅 Дананг</div>
+<div class="card" onclick="selectCity('Хошимин')">🏙 Хошимин</div>
+<div class="card" onclick="selectCity('Ханой')">🏛 Ханой</div>
 
-      <div id="error-city" class="errorBox hidden"></div>
-    </div>
+<div id="error-city" class="errorBox hidden"></div>
+</div>
 
-    <!-- ЭКРАН 2: СЕГМЕНТ -->
-    <div id="screen-segment" class="hidden">
-      <h1>Какой формат авто вам подойдёт?</h1>
+<!-- СЕГМЕНТ -->
+<div id="screen-segment" class="hidden">
+<h1>Какой формат авто вам подойдёт?</h1>
 
-      <div class="card" onclick="selectSegment('Баланс комфорта и практичности')">🚗 Баланс комфорта и практичности</div>
-      <div class="card" onclick="selectSegment('Комфорт для трассы и горных дорог')">🚙 Комфорт для трассы и горных дорог</div>
-      <div class="card" onclick="selectSegment('Простор для семьи и компании')">👨‍👩‍👧 Простор для семьи и компании</div>
-      <div class="card" onclick="selectSegment('Электромобили нового поколения')">⚡ Электромобили нового поколения</div>
-      <div class="card" onclick="selectSegment('Бизнес и представительский класс')">💎 Бизнес и представительский класс</div>
+<div class="card" onclick="selectSegment('Баланс комфорта и практичности')">🚗 Баланс комфорта и практичности</div>
+<div class="card" onclick="selectSegment('Комфорт для трассы и горных дорог')">🚙 Комфорт для трассы и горных дорог</div>
+<div class="card" onclick="selectSegment('Простор для семьи и компании')">👨‍👩‍👧 Простор для семьи и компании</div>
+<div class="card" onclick="selectSegment('Электромобили нового поколения')">⚡ Электромобили нового поколения</div>
+<div class="card" onclick="selectSegment('Бизнес и представительский класс')">💎 Бизнес и представительский класс</div>
 
-      <button class="btn secondary" onclick="backTo('screen-city')">← Назад</button>
-      <div id="error-segment" class="errorBox hidden"></div>
-    </div>
+<button class="btn secondary" onclick="backTo('screen-city')">← Назад</button>
+<div id="error-segment" class="errorBox hidden"></div>
+</div>
 
-    <!-- ЭКРАН 3: МАШИНЫ -->
-    <div id="screen-car" class="hidden">
-      <h1>Выберите автомобиль</h1>
-      <div class="subtitle">Покажем варианты из выбранного формата.</div>
+<!-- МАШИНЫ -->
+<div id="screen-car" class="hidden">
+<h1>Выберите автомобиль</h1>
+<div class="subtitle">Покажем варианты из выбранного формата.</div>
+<div id="car-list"></div>
 
-      <div id="car-list"></div>
+<button class="btn secondary" onclick="backTo('screen-segment')">← Назад</button>
+<div id="error-car" class="errorBox hidden"></div>
+</div>
 
-      <button class="btn secondary" onclick="backTo('screen-segment')">← Назад</button>
-      <div id="error-car" class="errorBox hidden"></div>
-    </div>
+<!-- ДАТЫ -->
+<div id="screen-dates" class="hidden">
+<h1>Укажите даты аренды</h1>
+<div class="subtitle">Выберите даты поездки.</div>
 
-    <!-- ЭКРАН 4: ДАТЫ -->
-    <div id="screen-dates" class="hidden">
-      <h1>Укажите даты аренды</h1>
-      <div class="subtitle">Выберите даты поездки (без времени — это нормально).</div>
+<input type="date" id="dateFrom" />
+<input type="date" id="dateTo" />
 
-      <input type="date" id="dateFrom" />
-      <input type="date" id="dateTo" />
+<button class="btn primary" onclick="goToContacts()">Далее</button>
+<button class="btn secondary" onclick="backTo('screen-car')">← Назад</button>
 
-      <button class="btn" onclick="goToContacts()">Далее</button>
-      <button class="btn secondary" onclick="backTo('screen-car')">← Назад</button>
+<div id="error-dates" class="errorBox hidden"></div>
+</div>
 
-      <div id="error-dates" class="errorBox hidden"></div>
-    </div>
+<!-- КОНТАКТЫ -->
+<div id="screen-contacts" class="hidden">
+<h1>Контактные данные</h1>
+<div class="subtitle">Менеджер свяжется с вами в ближайшее время.</div>
 
-    <!-- ЭКРАН 5: КОНТАКТЫ -->
-    <div id="screen-contacts" class="hidden">
-      <h1>Контактные данные</h1>
-      <div class="subtitle">Менеджер свяжется с вами в ближайшее время.</div>
+<input type="text" id="clientName" placeholder="Ваше имя" />
+<input type="text" id="clientContact" placeholder="Telegram или WhatsApp" />
 
-      <input type="text" id="clientName" placeholder="Ваше имя" />
-      <input type="text" id="clientContact" placeholder="Telegram или WhatsApp" />
+<button id="submitBtn" class="btn primary" onclick="sendBooking()">Отправить заявку</button>
+<button class="btn secondary" onclick="backTo('screen-dates')">← Назад</button>
 
-      <button class="btn" onclick="sendBooking()">Отправить заявку</button>
-      <button class="btn secondary" onclick="backTo('screen-dates')">← Назад</button>
+<div id="error-contacts" class="errorBox hidden"></div>
+</div>
 
-      <div id="error-contacts" class="errorBox hidden"></div>
-    </div>
+<!-- УСПЕХ -->
+<div id="screen-success" class="hidden">
+<div class="successWrap">
 
-    <!-- ЭКРАН 6: УСПЕХ -->
-    <div id="screen-success" class="hidden">
-      <div class="successWrap">
+<div class="success">
+<h2>✅ Заявка отправлена</h2>
+<p>Менеджер свяжется с вами в ближайшее время.</p>
+<div class="hint">Если вопрос срочный — напишите нам напрямую.</div>
+</div>
 
-        <div class="success">
-          <h2>✅ Заявка отправлена</h2>
-          <p>Менеджер свяжется с вами в ближайшее время.</p>
-          <div class="hint">Если вопрос срочный — напишите нам напрямую в Telegram.</div>
-        </div>
+<a class="btn primary" href="https://t.me/RentCarNT" target="_blank">
+✉️ Написать менеджеру
+</a>
 
-        <a class="btn primary" href="https://t.me/RentCarNT" target="_blank" rel="noopener noreferrer">
-          ✉️ Написать менеджеру
-        </a>
+<button class="btn secondary" onclick="resetFlow()">Оставить ещё заявку</button>
 
-        <button class="btn secondary" onclick="resetFlow()">Оставить ещё заявку</button>
+</div>
+</div>
 
-      </div>
-    </div>
-
-  </div>
+</div>
 
 <script>
-  // ✅ твой верный Apps Script URL (НЕ ТРОГАЕМ)
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw83bucvRMn2_TNmmLoDhnVSL5Eeh3nA01-ANetMaGh7sqET43VMiTcxVKt24mx_aU/exec";
 
-  let bookingData = {};
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw83bucvRMn2_TNmmLoDhnVSL5Eeh3nA01-ANetMaGh7sqET43VMiTcxVKt24mx_aU/exec";
 
-  const cars = {
-    "Баланс комфорта и практичности": [
-      { name:"Hyundai Kona", price:40 },
-      { name:"Mazda 2", price:35 },
-      { name:"Mazda 3", price:40 },
-      { name:"Honda City", price:35 }
-    ],
-    "Комфорт для трассы и горных дорог": [
-      { name:"Mazda CX-5", price:52 },
-      { name:"Mazda CX-30", price:50 },
-      { name:"Hyundai Creta", price:45 }
-    ],
-    "Простор для семьи и компании": [
-      { name:"Xpander (7 мест)", price:55 },
-      { name:"Carens (7 мест)", price:65 }
-    ],
-    "Электромобили нового поколения": [
-      { name:"VinFast VF7", price:60 },
-      { name:"VinFast VF5", price:45 }
-    ],
-    "Бизнес и представительский класс": [
-      { name:"Mercedes C300", price:95 }
-    ]
-  };
+let bookingData = {};
+let isSubmitting = false;
 
-  function show(screenId){
-    document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
-    const el = document.getElementById(screenId);
-    if (el) el.classList.remove('hidden');
-  }
+const cars = {
+"Баланс комфорта и практичности":[
+{ name:"Hyundai Kona", price:40 },
+{ name:"Mazda 2", price:35 },
+{ name:"Mazda 3", price:40 },
+{ name:"Honda City", price:35 }
+],
+"Комфорт для трассы и горных дорог":[
+{ name:"Mazda CX-5", price:52 },
+{ name:"Mazda CX-30", price:50 },
+{ name:"Hyundai Creta", price:45 }
+],
+"Простор для семьи и компании":[
+{ name:"Xpander (7 мест)", price:55 },
+{ name:"Carens (7 мест)", price:65 }
+],
+"Электромобили нового поколения":[
+{ name:"VinFast VF7", price:60 },
+{ name:"VinFast VF5", price:45 }
+],
+"Бизнес и представительский класс":[
+{ name:"Mercedes C300", price:95 }
+]
+};
 
-  function backTo(screenId){ show(screenId); }
-
-  function setError(id, text){
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (!text) {
-      el.classList.add("hidden");
-      el.textContent = "";
-      return;
-    }
-    el.classList.remove("hidden");
-    el.textContent = text;
-  }
-
-  function selectCity(city){
-    bookingData = {};
-    bookingData.city = city;
-    setError("error-city", "");
-    show("screen-segment");
-  }
-
-  function selectSegment(segment){
-    bookingData.segment = segment;
-    setError("error-segment", "");
-
-    const list = document.getElementById("car-list");
-    list.innerHTML = "";
-
-    const items = cars[segment] || [];
-    if (!items.length) {
-      setError("error-car", "Пока нет машин в этом формате. Выберите другой формат.");
-      show("screen-car");
-      return;
-    }
-
-    items.forEach(car => {
-      const div = document.createElement("div");
-      div.className = "card";
-      div.onclick = () => selectCar(car.name, car.price);
-      div.innerHTML = `
-        <strong>${car.name}</strong><br>
-        <span style="color:#2ecc71;">от $${car.price} / сутки</span>
-      `;
-      list.appendChild(div);
-    });
-
-    show("screen-car");
-  }
-
-  function selectCar(name, price){
-    bookingData.car = name;
-    bookingData.price = price;
-    setError("error-car", "");
-    show("screen-dates");
-  }
-
-  function goToContacts(){
-    const from = document.getElementById("dateFrom").value;
-    const to = document.getElementById("dateTo").value;
-
-    if (!from || !to) {
-      setError("error-dates", "Пожалуйста, выберите обе даты.");
-      return;
-    }
-    if (to < from) {
-      setError("error-dates", "Дата окончания не может быть раньше даты начала.");
-      return;
-    }
-
-    bookingData.dateFrom = from;
-    bookingData.dateTo = to;
-    bookingData.dates = `${from} — ${to}`;
-
-    setError("error-dates", "");
-    show("screen-contacts");
-  }
-
-  async function sendBooking(){
-    const name = (document.getElementById("clientName").value || "").trim();
-    const contact = (document.getElementById("clientContact").value || "").trim();
-
-    if (!name || !contact) {
-      setError("error-contacts", "Введите имя и контакт (Telegram/WhatsApp).");
-      return;
-    }
-
-    bookingData.name = name;
-    bookingData.contact = contact;
-    bookingData.type = "miniapp_booking"; // оставляем как было
-
-    setError("error-contacts", "");
-
-    try {
-      // ✅ КЛЮЧЕВОЕ: без headers, чтобы не было CORS/preflight
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(bookingData)
-      });
-
-      // если ответ читается — проверим, если нет — всё равно считаем успехом, раз fetch не упал
-      let ok = true;
-      try {
-        const data = await res.json();
-        ok = (data && data.status === "ok");
-      } catch(e) {
-        ok = true;
-      }
-
-      if (ok) {
-        show("screen-success");
-      } else {
-        setError("error-contacts", "Сервер ответил ошибкой. Проверь Apps Script / лист 'Заявки'.");
-      }
-    } catch (err) {
-      setError("error-contacts", "Ошибка отправки:\n" + String(err));
-    }
-  }
-
-  function resetFlow(){
-    bookingData = {};
-    document.getElementById("dateFrom").value = "";
-    document.getElementById("dateTo").value = "";
-    document.getElementById("clientName").value = "";
-    document.getElementById("clientContact").value = "";
-
-    setError("error-city", "");
-    setError("error-segment", "");
-    setError("error-car", "");
-    setError("error-dates", "");
-    setError("error-contacts", "");
-
-    show("screen-city");
-  }
-function fixTelegramHeight() {
-  if (window.Telegram && Telegram.WebApp) {
-    const stableHeight = Telegram.WebApp.viewportStableHeight;
-    document.body.style.height = stableHeight + "px";
-  }
+function show(id){
+document.querySelectorAll('[id^="screen-"]').forEach(el=>el.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
 }
 
-if (window.Telegram && Telegram.WebApp) {
-  Telegram.WebApp.expand();
-  fixTelegramHeight();
-  Telegram.WebApp.onEvent('viewportChanged', fixTelegramHeight);
+function backTo(id){ show(id); }
+
+function setError(id,text){
+const el=document.getElementById(id);
+if(!text){ el.classList.add("hidden"); el.textContent=""; return; }
+el.classList.remove("hidden");
+el.textContent=text;
 }
-  resetFlow();
+
+function selectCity(city){
+bookingData={};
+bookingData.city=city;
+show("screen-segment");
+}
+
+function selectSegment(segment){
+bookingData.segment=segment;
+const list=document.getElementById("car-list");
+list.innerHTML="";
+(cars[segment]||[]).forEach(car=>{
+const div=document.createElement("div");
+div.className="card";
+div.onclick=()=>selectCar(car.name,car.price);
+div.innerHTML=`<strong>${car.name}</strong><br><span style="color:#2ecc71;">от $${car.price} / сутки</span>`;
+list.appendChild(div);
+});
+show("screen-car");
+}
+
+function selectCar(name,price){
+bookingData.car=name;
+bookingData.price=price;
+show("screen-dates");
+}
+
+function goToContacts(){
+const from=document.getElementById("dateFrom").value;
+const to=document.getElementById("dateTo").value;
+if(!from||!to){ setError("error-dates","Выберите обе даты."); return; }
+if(to<from){ setError("error-dates","Дата окончания раньше даты начала."); return; }
+bookingData.dates=`${from} — ${to}`;
+show("screen-contacts");
+}
+
+async function sendBooking(){
+if(isSubmitting) return;
+isSubmitting=true;
+
+const btn=document.getElementById("submitBtn");
+btn.disabled=true;
+btn.style.opacity="0.6";
+btn.textContent="Отправка...";
+
+if(document.activeElement) document.activeElement.blur();
+
+const name=document.getElementById("clientName").value.trim();
+const contact=document.getElementById("clientContact").value.trim();
+
+if(!name||!contact){
+setError("error-contacts","Введите имя и контакт.");
+isSubmitting=false;
+btn.disabled=false;
+btn.style.opacity="1";
+btn.textContent="Отправить заявку";
+return;
+}
+
+bookingData.name=name;
+bookingData.contact=contact;
+bookingData.type="miniapp_booking";
+
+try{
+await fetch(SCRIPT_URL,{
+method:"POST",
+body:JSON.stringify(bookingData)
+});
+show("screen-success");
+}catch(e){
+setError("error-contacts","Ошибка отправки.");
+isSubmitting=false;
+btn.disabled=false;
+btn.style.opacity="1";
+btn.textContent="Отправить заявку";
+}
+}
+
+function resetFlow(){
+bookingData={};
+isSubmitting=false;
+document.getElementById("dateFrom").value="";
+document.getElementById("dateTo").value="";
+document.getElementById("clientName").value="";
+document.getElementById("clientContact").value="";
+show("screen-city");
+}
+
+if(window.Telegram&&Telegram.WebApp){
+const tg=Telegram.WebApp;
+tg.expand();
+function applyHeight(){
+document.documentElement.style.height=tg.viewportStableHeight+"px";
+document.body.style.height=tg.viewportStableHeight+"px";
+}
+applyHeight();
+tg.onEvent("viewportChanged",applyHeight);
+}
+
+resetFlow();
+
 </script>
-
 </body>
 </html>
