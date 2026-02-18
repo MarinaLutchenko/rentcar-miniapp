@@ -237,7 +237,7 @@ input{
 
 <script>
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw83bucvRMn2_TNmmLoDhnVSL5Eeh3nA01-ANetMaGh7sqET43VMiTcxVKt24mx_aU/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxH2pXULpUwnbxHSeactHW3FjfSOeVl6CmE7KzXrbV4UdKzXg3vcCShxVuqek93PdZh/exec";
 
 let bookingData = {};
 let isSubmitting = false;
@@ -314,18 +314,21 @@ function goToTrip(){
     setError("error-dates","Выберите обе даты.");
     return;
   }
+
   if(to < from){
     setError("error-dates","Дата окончания раньше даты начала.");
     return;
   }
 
   bookingData.dateFrom = from;
-  bookingData.dateTo = to;
-  bookingData.dates = `${from} — ${to}`;
-  setError("error-dates","");
+  bookingData.dateTo   = to;
+  bookingData.dates    = `${from} — ${to}`;
 
-  show("screen-trip");   // ✅ вот ключ: идём на экран направления
+  setError("error-dates","");
+  show("screen-trip");
 }
+
+  
 function goToContacts(){
   const trip = (document.getElementById("tripDirection").value || "").trim();
 
