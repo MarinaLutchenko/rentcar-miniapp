@@ -180,12 +180,23 @@ input{
 <input type="date" id="dateFrom" />
 <input type="date" id="dateTo" />
 
-<button class="btn primary" onclick="goToContacts()">Далее</button>
+<button class="btn primary" onclick="goToTrip()">Далее</button>
 <button class="btn secondary" onclick="backTo('screen-car')">← Назад</button>
 
 <div id="error-dates" class="errorBox hidden"></div>
 </div>
+<!-- ЭКРАН 5: НАПРАВЛЕНИЕ -->
+<div id="screen-trip" class="hidden">
+  <h1>Куда планируется поездка?</h1>
+  <div class="subtitle">Это поможет менеджеру предложить подходящий автомобиль.</div>
 
+  <input type="text" id="tripDirection" placeholder="Например: Далат, Муйне, по городу, трасса" />
+
+  <button class="btn primary" onclick="goToContacts()">Далее</button>
+  <button class="btn secondary" onclick="backTo('screen-dates')">← Назад</button>
+
+  <div id="error-trip" class="errorBox hidden"></div>
+</div>
 <!-- КОНТАКТЫ -->
 <div id="screen-contacts" class="hidden">
 <h1>Контактные данные</h1>
@@ -292,14 +303,38 @@ bookingData.car=name;
 bookingData.price=price;
 show("screen-dates");
 }
+function goToTrip(){
+  const from = document.getElementById("dateFrom").value;
+  const to   = document.getElementById("dateTo").value;
 
+  if(!from || !to){
+    setError("error-dates","Выберите обе даты.");
+    return;
+  }
+  if(to < from){
+    setError("error-dates","Дата окончания раньше даты начала.");
+    return;
+  }
+
+  bookingData.dateFrom = from;
+  bookingData.dateTo = to;
+  bookingData.dates = `${from} — ${to}`;
+  setError("error-dates","");
+
+  show("screen-trip");   // ✅ вот ключ: идём на экран направления
+}
 function goToContacts(){
-const from=document.getElementById("dateFrom").value;
-const to=document.getElementById("dateTo").value;
-if(!from||!to){ setError("error-dates","Выберите обе даты."); return; }
-if(to<from){ setError("error-dates","Дата окончания раньше даты начала."); return; }
-bookingData.dates=`${from} — ${to}`;
-show("screen-contacts");
+  const trip = (document.getElementById("tripDirection").value || "").trim();
+
+  if(!trip){
+    setError("error-trip","Напишите, куда планируется поездка.");
+    return;
+  }
+
+  bookingData.tripDirection = trip;     // сохраняем направление
+  setError("error-trip","");
+
+  show("screen-contacts");              // идём на контакты
 }
 
 async function sendBooking(){
