@@ -129,6 +129,64 @@ input{
   font-size:13px;
   white-space:pre-wrap;
 }
+  .car-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px;
+  margin-bottom:14px;
+  cursor:pointer;
+  transition:transform .25s ease, box-shadow .25s ease;
+  animation:fadeUp .4s ease forwards;
+  opacity:0;
+}
+
+.car-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(0,0,0,0.4);
+}
+
+.car-img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  display:block;
+  transition:transform .6s ease;
+}
+
+.car-card:hover .car-img{
+  transform:scale(1.05);
+}
+
+.car-overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:16px;
+  background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.05));
+}
+
+.car-title{
+  font-size:18px;
+  font-weight:700;
+}
+
+.car-price{
+  color:#2ecc71;
+  font-size:14px;
+  margin-top:4px;
+}
+
+@keyframes fadeUp{
+  from{
+    transform:translateY(15px);
+    opacity:0;
+  }
+  to{
+    transform:translateY(0);
+    opacity:1;
+  }
+}
 </style>
 </head>
 
@@ -284,7 +342,11 @@ const carsByCity = {
     { name:"Vinfast limo green", price:null }
   ],
   "Люкс и премиум": [
-    { name:"Mercedes GLS", price:150 },   // можешь менять
+    { 
+  name:"Mercedes GLS", 
+  price:150,
+  image:"https://images.unsplash.com/photo-1603386329225-868f9b1ee6d7?q=80&w=1600&auto=format&fit=crop"
+}
     { name:"Mercedes E200", price:110 }   // можешь менять
   ]
 },
@@ -474,14 +536,20 @@ function selectSegment(segment){
 
   items.forEach(car => {
     const div = document.createElement("div");
-    div.className = "card";
+    div.className = "car-card";
     div.onclick = () => selectCar(car.name, car.price);
 
     const priceLine = (car.price === null || car.price === undefined)
       ? `<span style="color:#8b8b8b;">цена по запросу</span>`
       : `<span style="color:#2ecc71;">от $${car.price} / сутки</span>`;
 
-    div.innerHTML = `<strong>${car.name}</strong><br>${priceLine}`;
+    div.innerHTML = `
+  ${car.image ? `<img src="${car.image}" class="car-img">` : ""}
+  <div class="car-overlay">
+    <div class="car-title">${car.name}</div>
+    <div class="car-price">${priceLine}</div>
+  </div>
+`;
     list.appendChild(div);
   });
 
