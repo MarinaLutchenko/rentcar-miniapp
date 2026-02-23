@@ -281,10 +281,11 @@ const carsByCity = {
     { name:"VinFast VF 3", price:35 },
     { name:"VinFast VF 7", price:84 },
     { name:"VinFast VF 9", price:90 },
-    { name:"Vinfast limo green", price:null } // цену не давала — оставляем без цены
+    { name:"Vinfast limo green", price:null }
   ],
   "Люкс и премиум": [
-    // пусто по твоему списку
+    { name:"Mercedes GLS", price:150 },   // можешь менять
+    { name:"Mercedes E200", price:110 }   // можешь менять
   ]
 },
 
@@ -331,7 +332,12 @@ const carsByCity = {
     { name:"Ford ranger", price:60 }
   ],
   "Электро": [],
-  "Люкс и премиум": [] // по твоему списку пусто
+  "Люкс и премиум": [
+    { name:"Porsche 911 Carrera", price:null },
+    { name:"BMW 740", price:null },
+    { name:"BMW 730", price:null },
+    { name:"Porsche Cayenne", price:null }
+  ]
 },
 
 "Фукуок": {
@@ -386,7 +392,6 @@ const carsByCity = {
 }
 
 };
-
 // -------------------- UI helpers --------------------
 function show(id){
   document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
