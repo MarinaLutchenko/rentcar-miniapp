@@ -87,7 +87,7 @@ input{
   border:none;
   background:#1c1c1c;
   color:#fff;
-  font-size:16px;               /* важно: минимум 16px */
+  font-size:16px;
   line-height:20px;
   outline:none;
   -webkit-appearance:none;
@@ -129,7 +129,9 @@ input{
   font-size:13px;
   white-space:pre-wrap;
 }
-  .car-card{
+
+/* --- Premium car cards --- */
+.car-card{
   position:relative;
   overflow:hidden;
   border-radius:18px;
@@ -145,12 +147,22 @@ input{
   box-shadow:0 12px 28px rgba(0,0,0,0.4);
 }
 
-.car-img{
+.car-img, .car-img-placeholder{
   width:100%;
   height:200px;
-  object-fit:cover;
   display:block;
+}
+
+.car-img{
+  object-fit:cover;
   transition:transform .6s ease;
+}
+
+.car-img-placeholder{
+  background:
+    radial-gradient(1200px 400px at 20% 10%, rgba(46,204,113,0.18), transparent 60%),
+    radial-gradient(900px 300px at 80% 0%, rgba(255,255,255,0.06), transparent 55%),
+    linear-gradient(135deg, #1c1c1c, #0f0f0f);
 }
 
 .car-card:hover .car-img{
@@ -163,7 +175,7 @@ input{
   left:0;
   right:0;
   padding:16px;
-  background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.05));
+  background:linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0.10));
 }
 
 .car-title{
@@ -178,14 +190,8 @@ input{
 }
 
 @keyframes fadeUp{
-  from{
-    transform:translateY(15px);
-    opacity:0;
-  }
-  to{
-    transform:translateY(0);
-    opacity:1;
-  }
+  from{ transform:translateY(15px); opacity:0; }
+  to{ transform:translateY(0); opacity:1; }
 }
 </style>
 </head>
@@ -210,8 +216,6 @@ input{
 <!-- СЕГМЕНТ -->
 <div id="screen-segment" class="hidden">
   <h1>Какой формат авто вам подойдёт?</h1>
-
-  <!-- Сюда сегменты вставляются динамически -->
   <div id="segment-list"></div>
 
   <button class="btn secondary" onclick="backTo('screen-city')">← Назад</button>
@@ -272,7 +276,6 @@ input{
 <!-- УСПЕХ -->
 <div id="screen-success" class="hidden">
   <div class="successWrap">
-
     <div class="success">
       <h2>✅ Заявка отправлена</h2>
       <p>Менеджер свяжется с вами в ближайшее время.</p>
@@ -284,176 +287,171 @@ input{
     </a>
 
     <button class="btn secondary" onclick="resetFlow()">Оставить ещё заявку</button>
-
   </div>
 </div>
 
 </div>
 
 <script>
-// ✅ ТВОЙ Apps Script URL (НЕ ТРОГАЕМ)
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxH2pXULpUwnbxHSeactHW3FjfSOeVl6CmE7KzXrbV4UdKzXg3vcCShxVuqek93PdZh/exec";
 
 let bookingData = {};
 let isSubmitting = false;
 
-// ✅ Сегменты, которые ты утвердила
 const SEGMENTS = [
   { key:"Городская езда и практичность", icon:"🚗" },
   { key:"Кроссоверы и поездка в горы", icon:"🚙" },
   { key:"7 мест и семейные авто", icon:"👨‍👩‍👧" },
   { key:"Электро", icon:"⚡" },
-  { key:"Люкс и премиум", icon:"💎" } // показываем только если в городе есть такие машины
+  { key:"Люкс и премиум", icon:"💎" }
 ];
 
-// ✅ Машины строго по твоему списку, по городам и сегментам
 const carsByCity = {
+  "Нячанг": {
+    "Городская езда и практичность": [
+      { name:"Mazda 2", price:40 },
+      { name:"Mazda 3", price:45 },
+      { name:"Mazda 3 2018", price:40 },
+      { name:"Kia Soluto", price:40 },
+      { name:"Toyota Raize", price:43 },
+      { name:"Kia Cerato", price:45 },
+      { name:"Honda City", price:45 }
+    ],
+    "Кроссоверы и поездка в горы": [
+      { name:"Mazda CX 30", price:45 },
+      { name:"Mazda CX 5", price:52 },
+      { name:"Hyundai Creta", price:46 },
+      { name:"Hyundai Kona", price:40 },
+      { name:"Honda HRV", price:46 },
+      { name:"Toyota Veloz", price:50 },
+      { name:"VinFast Lux", price:52 }
+    ],
+    "7 мест и семейные авто": [
+      { name:"Hyundai Custin", price:65 },
+      { name:"Kia Carnival", price:90 },
+      { name:"Xpander", price:45 },
+      { name:"BYD M6", price:55 },
+      { name:"Kia Carens", price:48 }
+    ],
+    "Электро": [
+      { name:"VinFast VF 3", price:35 },
+      { name:"VinFast VF 7", price:84 },
+      { name:"VinFast VF 9", price:90 },
+      { name:"Vinfast limo green", price:null }
+    ],
+    "Люкс и премиум": [
+      {
+        name:"Mercedes GLS",
+        price:150,
+        image:"https://images.unsplash.com/photo-1603386329225-868f9b1ee6d7?q=80&w=1600&auto=format&fit=crop"
+      }, /* ✅ ВОТ ТУТ БЫЛА ОШИБКА: не хватало запятой */
+      { name:"Mercedes E200", price:110 }
+    ]
+  },
 
-"Нячанг": {
-  "Городская езда и практичность": [
-    { name:"Mazda 2", price:40 },
-    { name:"Mazda 3", price:45 },
-    { name:"Mazda 3 2018", price:40 },
-    { name:"Kia Soluto", price:40 },
-    { name:"Toyota Raize", price:43 },
-    { name:"Kia Cerato", price:45 },
-    { name:"Honda City", price:45 }
-  ],
-  "Кроссоверы и поездка в горы": [
-    { name:"Mazda CX 30", price:45 },
-    { name:"Mazda CX 5", price:52 },
-    { name:"Hyundai Creta", price:46 },
-    { name:"Hyundai Kona", price:40 },
-    { name:"Honda HRV", price:46 },
-    { name:"Toyota Veloz", price:50 },
-    { name:"VinFast Lux", price:52 }
-  ],
-  "7 мест и семейные авто": [
-    { name:"Hyundai Custin", price:65 },
-    { name:"Kia Carnival", price:90 },
-    { name:"Xpander", price:45 },
-    { name:"BYD M6", price:55 },
-    { name:"Kia Carens", price:48 }
-  ],
-  "Электро": [
-    { name:"VinFast VF 3", price:35 },
-    { name:"VinFast VF 7", price:84 },
-    { name:"VinFast VF 9", price:90 },
-    { name:"Vinfast limo green", price:null }
-  ],
-  "Люкс и премиум": [
-    { 
-  name:"Mercedes GLS", 
-  price:150,
-  image:"https://images.unsplash.com/photo-1603386329225-868f9b1ee6d7?q=80&w=1600&auto=format&fit=crop"
-}
-    { name:"Mercedes E200", price:110 }   // можешь менять
-  ]
-},
+  "Муйне/Фантьет": {
+    "Городская езда и практичность": [
+      { name:"Mazda 3", price:45 },
+      { name:"Toyota Vios", price:45 },
+      { name:"Honda City", price:45 },
+      { name:"Hyundai Accent", price:45 },
+      { name:"Kia Sonet", price:45 },
+      { name:"MG5", price:50 }
+    ],
+    "Кроссоверы и поездка в горы": [
+      { name:"Xforce", price:60 }
+    ],
+    "7 мест и семейные авто": [
+      { name:"Kia Sedona", price:65 },
+      { name:"Kia Carens", price:55 },
+      { name:"Beijing M6", price:60 }
+    ],
+    "Электро": [],
+    "Люкс и премиум": []
+  },
 
-"Муйне/Фантьет": {
-  "Городская езда и практичность": [
-    { name:"Mazda 3", price:45 },
-    { name:"Toyota Vios", price:45 },
-    { name:"Honda City", price:45 },
-    { name:"Hyundai Accent", price:45 },
-    { name:"Kia Sonet", price:45 },
-    { name:"MG5", price:50 }
-  ],
-  "Кроссоверы и поездка в горы": [
-    { name:"Xforce", price:60 }
-  ],
-  "7 мест и семейные авто": [
-    { name:"Kia Sedona", price:65 },
-    { name:"Kia Carens", price:55 },
-    { name:"Beijing M6", price:60 }
-  ],
-  "Электро": [],
-  "Люкс и премиум": []
-},
+  "Хошимин": {
+    "Городская езда и практичность": [
+      { name:"Vios", price:45 },
+      { name:"Elentra", price:48 },
+      { name:"Accent", price:45 },
+      { name:"Venue", price:45 },
+      { name:"MG5", price:50 }
+    ],
+    "Кроссоверы и поездка в горы": [
+      { name:"Creta", price:53 },
+      { name:"X foce", price:53 },
+      { name:"Mg rx 5", price:52 }
+    ],
+    "7 мест и семейные авто": [
+      { name:"Fortuner", price:65 },
+      { name:"X pander", price:53 },
+      { name:"Custin", price:68 },
+      { name:"Canival", price:105 },
+      { name:"Ford Everet", price:68 },
+      { name:"Ford ranger", price:60 }
+    ],
+    "Электро": [],
+    "Люкс и премиум": [
+      { name:"Porsche 911 Carrera", price:null },
+      { name:"BMW 740", price:null },
+      { name:"BMW 730", price:null },
+      { name:"Porsche Cayenne", price:null }
+    ]
+  },
 
-"Хошимин": {
-  "Городская езда и практичность": [
-    { name:"Vios", price:45 },
-    { name:"Elentra", price:48 },
-    { name:"Accent", price:45 },
-    { name:"Venue", price:45 },
-    { name:"MG5", price:50 }
-  ],
-  "Кроссоверы и поездка в горы": [
-    { name:"Creta", price:53 },
-    { name:"X foce", price:53 },
-    { name:"Mg rx 5", price:52 }
-  ],
-  "7 мест и семейные авто": [
-    { name:"Fortuner", price:65 },
-    { name:"X pander", price:53 },
-    { name:"Custin", price:68 },
-    { name:"Canival", price:105 },
-    { name:"Ford Everet", price:68 },
-    { name:"Ford ranger", price:60 }
-  ],
-  "Электро": [],
-  "Люкс и премиум": [
-    { name:"Porsche 911 Carrera", price:null },
-    { name:"BMW 740", price:null },
-    { name:"BMW 730", price:null },
-    { name:"Porsche Cayenne", price:null }
-  ]
-},
+  "Фукуок": {
+    "Городская езда и практичность": [
+      { name:"Toyota Wigo", price:40 },
+      { name:"Hyundai accent", price:40 },
+      { name:"Vios", price:45 },
+      { name:"Hyundai Elantra", price:45 }
+    ],
+    "Кроссоверы и поездка в горы": [
+      { name:"Kia Seltos", price:52 }
+    ],
+    "7 мест и семейные авто": [
+      { name:"Xpander", price:60 }
+    ],
+    "Электро": [],
+    "Люкс и премиум": [
+      { name:"Lexus ES250", price:140 },
+      { name:"Mercedes e200", price:85 },
+      { name:"BMW 320", price:80 }
+    ]
+  },
 
-"Фукуок": {
-  "Городская езда и практичность": [
-    { name:"Toyota Wigo", price:40 },
-    { name:"Hyundai accent", price:40 },
-    { name:"Vios", price:45 },
-    { name:"Hyundai Elantra", price:45 }
-  ],
-  "Кроссоверы и поездка в горы": [
-    { name:"Kia Seltos", price:52 }
-  ],
-  "7 мест и семейные авто": [
-    { name:"Xpander", price:60 }
-  ],
-  "Электро": [],
-  "Люкс и премиум": [
-    { name:"Lexus ES250", price:140 },
-    { name:"Mercedes e200", price:85 },
-    { name:"BMW 320", price:80 }
-  ]
-},
+  "Ханой": {
+    "Городская езда и практичность": [
+      { name:"Mazda 3", price:50 }
+    ],
+    "Кроссоверы и поездка в горы": [
+      { name:"Mazda cx5", price:56 },
+      { name:"Hyundai Kona", price:48 },
+      { name:"MG zs", price:53 },
+      { name:"Vinfast lux", price:55 }
+    ],
+    "7 мест и семейные авто": [],
+    "Электро": [],
+    "Люкс и премиум": []
+  },
 
-"Ханой": {
-  "Городская езда и практичность": [
-    { name:"Mazda 3", price:50 }
-  ],
-  "Кроссоверы и поездка в горы": [
-    { name:"Mazda cx5", price:56 },
-    { name:"Hyundai Kona", price:48 },
-    { name:"MG zs", price:53 },
-    { name:"Vinfast lux", price:55 }
-  ],
-  "7 мест и семейные авто": [],
-  "Электро": [],
-  "Люкс и премиум": []
-},
-
-"Дананг": {
-  "Городская езда и практичность": [
-    { name:"Mazda 3", price:50 }
-  ],
-  "Кроссоверы и поездка в горы": [
-    { name:"Mazda cx5", price:56 },
-    { name:"Hyundai Kona", price:48 }
-  ],
-  "7 мест и семейные авто": [
-    { name:"Ford ranger", price:65 }
-  ],
-  "Электро": [],
-  "Люкс и премиум": []
-}
-
+  "Дананг": {
+    "Городская езда и практичность": [
+      { name:"Mazda 3", price:50 }
+    ],
+    "Кроссоверы и поездка в горы": [
+      { name:"Mazda cx5", price:56 },
+      { name:"Hyundai Kona", price:48 }
+    ],
+    "7 мест и семейные авто": [
+      { name:"Ford ranger", price:65 }
+    ],
+    "Электро": [],
+    "Люкс и премиум": []
+  }
 };
+
 // -------------------- UI helpers --------------------
 function show(id){
   document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
@@ -479,10 +477,7 @@ function setError(id,text){
 function selectCity(city){
   bookingData = {};
   bookingData.city = city;
-
-  // рисуем сегменты под конкретный город (и скрываем пустые)
   renderSegmentsForCity(city);
-
   show("screen-segment");
 }
 
@@ -494,7 +489,7 @@ function renderSegmentsForCity(city){
 
   SEGMENTS.forEach(seg => {
     const list = cityObj[seg.key] || [];
-    if (!list.length) return; // ✅ не показываем сегмент, если в городе пусто
+    if (!list.length) return;
 
     const div = document.createElement("div");
     div.className = "card";
@@ -503,7 +498,6 @@ function renderSegmentsForCity(city){
     wrap.appendChild(div);
   });
 
-  // если вдруг всё пустое
   if (!wrap.children.length){
     setError("error-segment", "В этом городе пока нет автомобилей. Выберите другой город.");
   } else {
@@ -526,13 +520,10 @@ function selectSegment(segment){
     return;
   }
 
-  // люкс: показываем подсказку про доставку/запрос
   const subtitle = document.getElementById("car-subtitle");
-  if (segment === "Люкс и премиум"){
-    subtitle.textContent = "Автомобили доступны в этом городе или по запросу (уточняйте у менеджера).";
-  } else {
-    subtitle.textContent = "Покажем варианты из выбранного формата.";
-  }
+  subtitle.textContent = (segment === "Люкс и премиум")
+    ? "Люксовые авто — часть доступна по запросу. Уточняйте у менеджера."
+    : "Покажем варианты из выбранного формата.";
 
   items.forEach(car => {
     const div = document.createElement("div");
@@ -543,13 +534,17 @@ function selectSegment(segment){
       ? `<span style="color:#8b8b8b;">цена по запросу</span>`
       : `<span style="color:#2ecc71;">от $${car.price} / сутки</span>`;
 
+    const imgBlock = car.image
+      ? `<img src="${car.image}" class="car-img" loading="lazy" onerror="this.remove();">`
+      : `<div class="car-img-placeholder"></div>`;
+
     div.innerHTML = `
-  ${car.image ? `<img src="${car.image}" class="car-img">` : ""}
-  <div class="car-overlay">
-    <div class="car-title">${car.name}</div>
-    <div class="car-price">${priceLine}</div>
-  </div>
-`;
+      ${imgBlock}
+      <div class="car-overlay">
+        <div class="car-title">${car.name}</div>
+        <div class="car-price">${priceLine}</div>
+      </div>
+    `;
     list.appendChild(div);
   });
 
@@ -571,7 +566,6 @@ function goToTrip(){
     setError("error-dates","Выберите обе даты.");
     return;
   }
-
   if(to < from){
     setError("error-dates","Дата окончания раньше даты начала.");
     return;
@@ -622,8 +616,6 @@ async function sendBooking(){
   bookingData.name = name;
   bookingData.contact = contact;
   bookingData.type = "miniapp_booking";
-
-  // ✅ ВАЖНО: чтобы менеджеру точно было видно направление (и чтобы не “терялось”)
   bookingData.destination = bookingData.tripDirection;
 
   setError("error-contacts","");
@@ -633,7 +625,6 @@ async function sendBooking(){
       method:"POST",
       body: JSON.stringify(bookingData)
     });
-
     show("screen-success");
   }catch(e){
     setError("error-contacts","Ошибка отправки.");
@@ -664,7 +655,7 @@ function resetFlow(){
   show("screen-city");
 }
 
-// -------------------- Telegram height fix (оставляем твой рабочий) --------------------
+// -------------------- Telegram height fix --------------------
 if(window.Telegram && Telegram.WebApp){
   const tg = Telegram.WebApp;
   tg.expand();
@@ -676,7 +667,6 @@ if(window.Telegram && Telegram.WebApp){
   tg.onEvent("viewportChanged", applyHeight);
 }
 
-// старт
 resetFlow();
 </script>
 </body>
