@@ -134,83 +134,82 @@ function renderFilters(){let f=['Все',...new Set(cars.filter(x=>x.city===city
 function renderCars(){let list=cars.filter(x=>x.city===city&&(filter==='Все'||x.type===filter));grid.innerHTML=list.map(x=>`<article class="card" onclick="openCar(${cars.indexOf(x)})"><div class="photo"><img src="${x.img}" alt="${x.name}"><span class="badge">${x.purpose||'Доступен'}</span></div><div class="body"><div class="row"><div><span class="type">${x.type}</span><h3>${x.name}</h3></div><div class="price">$${x.price}<small>/ сутки</small></div></div><div class="spec"><span>♙ ${x.seats} мест</span><span>◉ Автомат</span><span>✓ Поддержка</span></div></div></article>`).join('')}
 function openCar(i){selected=i;let x=cars[i];mImg.src=x.img;mType.textContent=x.type;mName.textContent=x.name;mChips.innerHTML=`<span>${x.seats} мест</span><span>Автомат</span><span>от $${x.price}/сутки</span>`;carView.style.display='block';booking.classList.remove('open');formError.textContent='';modalBg.classList.add('open')}
 function closeModal(e){if(e&&e.target!==modalBg)return;modalBg.classList.remove('open')}
-function showBooking(){let x=cars[selected];fCar.value=x.name;fCity.value=x.city;carView.style.display='none';booking.classList.add('open')}
+function showBooking(){let x=cars[selected];fCar.value=x.name;fCity.value=x.city;carView.style.display='none';booking.classList.add('open');formError.textContent=''}
 function hideBooking(){booking.classList.remove('open');carView.style.display='block'}
 
-function submitBooking(){
-  const car = cars[selected];
-  const tgUser = (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe)
-    ? (Telegram.WebApp.initDataUnsafe.user || {})
-    : {};
-
-  const value = (...selectors) => {
-    for (const selector of selectors) {
-      const el = document.querySelector(selector);
-      if (el && typeof el.value !== "undefined") {
-        return String(el.value || "").trim();
-      }
-    }
-    return "";
-  };
-
+async function submitBooking(){
+  const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user || {};
   const payload = {
-    car: car ? car.name : "",
-    city: (typeof city !== "undefined" ? city : "") || value("#bookingCity","[name='city']"),
-    start: value("#bookingStart","#startDate","#start","[name='start']","[name='start_date']"),
-    end: value("#bookingEnd","#endDate","#end","[name='end']","[name='end_date']"),
-    name: value("#bookingName","#name","[name='name']"),
-    contact: value("#bookingContact","#contact","[name='contact']","[name='phone']"),
-    comment: value("#bookingComment","#comment","textarea[name='comment']"),
+    car: fCar.value.trim(),
+    city: fCity.value.trim(),
+    start: fStart.value,
+    end: fEnd.value,
+    name: fName.value.trim(),
+    contact: fContact.value.trim(),
+    comment: fComment.value.trim(),
     telegram_id: tgUser.id || "",
     telegram_username: tgUser.username || "",
     telegram_name: [tgUser.first_name, tgUser.last_name].filter(Boolean).join(" ")
   };
 
-  const required = ["car","city","start","end","name","contact"];
-  const missing = required.filter(key => !String(payload[key] || "").trim());
+  const labels = {
+    car:"автомобиль",
+    city:"город",
+    start:"дату начала",
+    end:"дату возврата",
+    name:"имя",
+    contact:"контакт"
+  };
+
+  const missing = Object.keys(labels).filter(key => !String(payload[key] || "").trim());
 
   if (missing.length) {
-    alert("Заполните все обязательные поля.");
+    formError.textContent = "Заполните: " + missing.map(key => labels[key]).join(", ") + ".";
     return;
   }
 
-  const button =
-    document.querySelector("#bookingSubmit") ||
-    document.querySelector("[data-booking-submit]") ||
-    document.querySelector(".booking-submit");
-
-  if (button) {
-    button.disabled = true;
-    button.dataset.oldText = button.textContent;
-    button.textContent = "Отправляем...";
+  if (payload.end < payload.start) {
+    formError.textContent = "Дата возврата не может быть раньше даты начала.";
+    return;
   }
 
-  fetch("https://188-245-172-9.sslip.io/api/booking", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(payload)
-  })
-    .then(async response => {
-      let data = {};
-      try { data = await response.json(); } catch (_) {}
-      if (!response.ok || !data.ok) {
-        throw new Error(data.error || "Ошибка отправки заявки");
-      }
-      finishBooking();
-    })
-    .catch(error => {
-      console.error("Booking error:", error);
-      alert("Заявка не отправлена. Проверьте интернет и попробуйте ещё раз.");
-    })
-    .finally(() => {
-      if (button) {
-        button.disabled = false;
-        button.textContent = button.dataset.oldText || "Отправить заявку";
-      }
+  formError.textContent = "";
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Отправляем...";
+
+  try {
+    const response = await fetch("https://188-245-172-9.sslip.io/api/booking", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
     });
+
+    let result = {};
+    try {
+      result = await response.json();
+    } catch (_) {}
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.error || "Сервер не принял заявку");
+    }
+
+    modalBg.classList.remove("open");
+    successBg.classList.add("open");
+  } catch (error) {
+    console.error("Booking error:", error);
+    formError.textContent = "Заявка не отправлена: " + error.message;
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Отправить заявку";
+  }
 }
 
-function finishBooking(){if(window.Telegram?.WebApp){Telegram.WebApp.close()}else{successBg.classList.remove('open')}}
+function finishBooking(){
+  successBg.classList.remove('open');
+  if(window.Telegram?.WebApp){
+    Telegram.WebApp.close();
+  }
+}
 renderCities();renderFilters();renderCars();
 if(window.Telegram?.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();}
 </script>
