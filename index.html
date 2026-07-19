@@ -4251,6 +4251,113 @@ body.tru-splash-lock{
 
 /* TRU VIETNAM BOOKING BUTTON POSITION FINAL END */
 
+
+/* TRU VIETNAM CAR PHOTO VIEWER START */
+
+#carsSection .car-image{
+  cursor:zoom-in!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+
+#carsSection .car-photo-zoom{
+  position:absolute!important;
+  left:13px!important;
+  bottom:13px!important;
+  z-index:3!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:36px!important;
+  height:36px!important;
+  border:1px solid rgba(255,255,255,.26)!important;
+  border-radius:50%!important;
+  background:rgba(8,48,42,.72)!important;
+  color:#fff!important;
+  backdrop-filter:blur(10px)!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+  pointer-events:none!important;
+}
+
+#carsSection .car-photo-zoom svg{
+  width:18px!important;
+  height:18px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:2!important;
+}
+
+.car-photo-viewer{
+  position:fixed!important;
+  inset:0!important;
+  z-index:250000!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:
+    max(18px, env(safe-area-inset-top))
+    14px
+    max(24px, env(safe-area-inset-bottom))!important;
+  background:rgba(3,18,16,.94)!important;
+  box-sizing:border-box!important;
+  backdrop-filter:blur(12px)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+}
+
+.car-photo-viewer.open{
+  display:flex!important;
+}
+
+.car-photo-viewer-content{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+}
+
+.car-photo-viewer-image{
+  display:block!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:100%!important;
+  max-height:78dvh!important;
+  border-radius:18px!important;
+  object-fit:contain!important;
+  background:#092720!important;
+  box-shadow:0 22px 60px rgba(0,0,0,.42)!important;
+}
+
+.car-photo-viewer-title{
+  margin:14px 52px 0!important;
+  color:#fff8ea!important;
+  font:600 22px/1.15 Georgia,"Times New Roman",serif!important;
+  text-align:center!important;
+}
+
+.car-photo-viewer-close{
+  position:absolute!important;
+  top:max(16px, env(safe-area-inset-top))!important;
+  right:16px!important;
+  z-index:2!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:44px!important;
+  height:44px!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-radius:15px!important;
+  background:rgba(255,255,255,.11)!important;
+  color:#fff!important;
+  font-size:29px!important;
+  line-height:1!important;
+  cursor:pointer!important;
+}
+
+/* TRU VIETNAM CAR PHOTO VIEWER END */
+
 </style>
 </head>
 
@@ -4466,6 +4573,38 @@ body.tru-splash-lock{
       </button>
     </div>
   </nav>
+
+
+  <!-- TRU VIETNAM CAR PHOTO VIEWER HTML START -->
+  <div
+    id="carPhotoViewer"
+    class="car-photo-viewer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Фотография автомобиля"
+    onclick="handleCarPhotoBackdrop(event)"
+  >
+    <button
+      class="car-photo-viewer-close"
+      type="button"
+      onclick="closeCarPhoto()"
+      aria-label="Закрыть фотографию"
+    >×</button>
+
+    <div class="car-photo-viewer-content">
+      <img
+        id="carPhotoViewerImage"
+        class="car-photo-viewer-image"
+        src=""
+        alt=""
+      >
+      <div
+        id="carPhotoViewerTitle"
+        class="car-photo-viewer-title"
+      ></div>
+    </div>
+  </div>
+  <!-- TRU VIETNAM CAR PHOTO VIEWER HTML END -->
 
   <div id="bookingModal" class="modal">
     <div class="modal-sheet">
@@ -4803,12 +4942,28 @@ body.tru-splash-lock{
     function renderCarCard(car) {
       return `
         <article class="car-card">
-          <div class="car-image">
+          <div
+            class="car-image"
+            role="button"
+            tabindex="0"
+            aria-label="Увеличить фотографию ${car.name}"
+            onclick="openCarPhoto(this)"
+            onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCarPhoto(this); }"
+          >
             <img
               src="${car.image}"
               alt="${car.name}"
               loading="lazy"
             >
+
+            <span class="car-photo-zoom" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="10.5" cy="10.5" r="6.5"></circle>
+                <path d="M15.5 15.5L21 21"></path>
+                <path d="M10.5 7.5V13.5"></path>
+                <path d="M7.5 10.5H13.5"></path>
+              </svg>
+            </span>
 
             <div class="car-badge">${car.badge}</div>
 
@@ -5412,6 +5567,58 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 </script>
 <!-- TRU VIETNAM FINAL JOURNEY NAV END -->
+
+
+<script>
+/* TRU VIETNAM CAR PHOTO VIEWER JS START */
+
+function openCarPhoto(element) {
+  const image = element.querySelector("img");
+  const viewer = document.getElementById("carPhotoViewer");
+  const viewerImage = document.getElementById("carPhotoViewerImage");
+  const viewerTitle = document.getElementById("carPhotoViewerTitle");
+
+  if (!image || !viewer || !viewerImage) {
+    return;
+  }
+
+  viewerImage.src = image.currentSrc || image.src;
+  viewerImage.alt = image.alt || "Автомобиль";
+  viewerTitle.textContent = image.alt || "";
+  viewer.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeCarPhoto() {
+  const viewer = document.getElementById("carPhotoViewer");
+  const viewerImage = document.getElementById("carPhotoViewerImage");
+
+  if (!viewer) {
+    return;
+  }
+
+  viewer.classList.remove("open");
+  document.body.style.overflow = "";
+
+  if (viewerImage) {
+    viewerImage.src = "";
+  }
+}
+
+function handleCarPhotoBackdrop(event) {
+  if (event.target.id === "carPhotoViewer") {
+    closeCarPhoto();
+  }
+}
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    closeCarPhoto();
+  }
+});
+
+/* TRU VIETNAM CAR PHOTO VIEWER JS END */
+</script>
 
 </body>
 </html>
